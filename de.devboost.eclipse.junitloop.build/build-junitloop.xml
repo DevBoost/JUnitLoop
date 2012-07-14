@@ -18,8 +18,8 @@
 	<target name="compose-target-platform">
 		<!-- Unzip target platform -->
 		<mkdir dir="${targetPlatformDir}"/>
-		<unzip src="${env.WORKSPACE}/svn-Target-Platforms/Eclipse/eclipse-SDK-3.7.1-platform-independent-core.zip" dest="${targetPlatformDir}" />
-		<unzip src="${env.WORKSPACE}/svn-Target-Platforms/Eclipse/eclipse-SDK-3.7.1-linux-gtk-x86_64-addon.zip" dest="${targetPlatformDir}" />
+		<unzip src="${env.WORKSPACE}/svn-Target-Platforms/Eclipse/eclipse-SDK-3.7.2-core/eclipse-SDK-3.7.2-platform-independent-core.zip" dest="${targetPlatformDir}" />
+		<unzip src="${env.WORKSPACE}/svn-Target-Platforms/Eclipse/eclipse-SDK-3.7.2-linux/eclipse-SDK-3.7.2-linux-gtk-x86_64-addon.zip" dest="${targetPlatformDir}" />
 	</target>
 		
 	<target name="build-junitloop" depends="clean,compose-target-platform">
