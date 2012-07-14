@@ -26,8 +26,8 @@
 		<mkdir dir="${buildDir}"/>
 
 		<echo message="Bootstrap Autobuild tool" />
-		<ant antfile="autobuild_bootstrap.xml" dir="${env.WORKSPACE}/svn-autobuild/org.dropsbox.autobuild">
-			<property name="build_plugin_path" value="${env.WORKSPACE}/svn-devboost-tools/${build_plugin_ID}"/>
+		<ant antfile="autobuild_bootstrap.xml" dir="${env.WORKSPACE}/git-BuildBoost/de.devboost.buildboost">
+			<property name="build_plugin_path" value="${env.WORKSPACE}/git-JUnitLoop/${build_plugin_ID}"/>
 			<property name="build_plugin_id" value="${build_plugin_ID}"/>
 		</ant>
 	</target>
