@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="de.devboost.eclipse.jloop"
+            nameFilter="*.java*"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="de.devboost.eclipse.jloop.ui.RunInLoopAction"
+               enablesFor="1"
+               id="de.devboost.eclipse.jloop.runaction"
+               label="Run in loop"
+               menubarPath="additions"/>
+      </objectContribution>
+   </extension>
+
+   <extension
+         point="org.eclipse.jdt.core.compilationParticipant">
+      <compilationParticipant
+            class="de.devboost.eclipse.jloop.JLoopCompilationParticipant"
+            id="de.devboost.eclipse.jloop.compilationParticipant">
+      </compilationParticipant>
+   </extension>
+
+</plugin>

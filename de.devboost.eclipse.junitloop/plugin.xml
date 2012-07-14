@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.jdt.core.compilationParticipant">
+      <compilationParticipant
+            class="de.devboost.eclipse.junitloop.JUnitLoopCompilationParticipant"
+            id="de.devboost.eclipse.junitloop.compilationParticipant">
+      </compilationParticipant>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.junit.testRunListeners">
+      <testRunListener
+            class="de.devboost.eclipse.junitloop.JUnitLoopTestRunListener">
+      </testRunListener>
+   </extension>
+   <extension
+         point="org.eclipse.ui.viewActions">
+      <viewContribution
+            id="de.devboost.eclipse.junitloop.viewContribution"
+            targetID="org.eclipse.jdt.junit.ResultView">
+            
+            <action id="de.devboost.eclipse.junitloop.enableAction" label="Run in loop" style="toggle"
+            	menubarPath="additions"
+            	enablesFor="*">
+            	<class class="de.devboost.eclipse.junitloop.ui.EnableAction" />
+            </action>
+      </viewContribution>
+   </extension>
+</plugin>

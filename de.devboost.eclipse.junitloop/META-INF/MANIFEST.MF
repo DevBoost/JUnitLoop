@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Junitloop
+Bundle-SymbolicName: de.devboost.eclipse.junitloop;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: de.devboost.eclipse.junitloop.JUnitLoopPlugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.jdt,
+ org.eclipse.jdt.core,
+ org.eclipse.debug.core,
+ org.eclipse.debug.ui,
+ de.devboost.eclipse.jloop,
+ org.eclipse.jdt.junit.core
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

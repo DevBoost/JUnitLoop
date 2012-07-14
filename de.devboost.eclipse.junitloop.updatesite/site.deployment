@@ -1,0 +1,9 @@
+version = 0.6.1
+site/vendor = DevBoost GmbH
+site/uploadPath = www.devboost.de:/home/jenkins/junitloop/update_trunk
+
+feature/de.devboost.eclipse.jloop/version = $version
+feature/de.devboost.eclipse.jloop/name = JLoop
+
+feature/de.devboost.eclipse.junitloop/version = $version
+feature/de.devboost.eclipse.junitloop/name = JUnitLoop

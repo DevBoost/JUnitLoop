@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Build
+Bundle-SymbolicName: de.devboost.eclipse.junitloop.build
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: de.devboost.buildboost,
+ de.devboost.buildboost.buildext.test.junit,
+ de.devboost.buildboost.genext.updatesite

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/de.devboost.eclipse.jloop_0.0.0.v0.jar" id="de.devboost.eclipse.jloop" version="0.0.0.v0">
+      <category name="JUnitLoop"/>
+   </feature>
+   <feature url="features/de.devboost.eclipse.junitloop_0.0.0.v0.jar" id="de.devboost.eclipse.junitloop" version="0.0.0.v0">
+      <category name="JUnitLoop"/>
+   </feature>
+   <category-def name="JUnitLoop" label="JLoop/JUnitLoop">
+      <description>
+         JLoop/JUnitLoop - Run classes or affected unit tests automatically whenever a class is saved.
+      </description>
+   </category-def>
+</site>
