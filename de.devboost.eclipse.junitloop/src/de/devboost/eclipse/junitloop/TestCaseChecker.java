@@ -15,16 +15,15 @@
  ******************************************************************************/
 package de.devboost.eclipse.junitloop;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 
 import de.devboost.eclipse.junitloop.launch.TestSuiteProjectData;
 
 class TestCaseChecker {
 
+	@SuppressWarnings("restriction")
 	public boolean isTestCase(IType type) throws JavaModelException {
 		if (Flags.isAbstract(type.getFlags())) {
 			return false;
@@ -38,22 +37,14 @@ class TestCaseChecker {
 		if (new TestSuiteProjectData().getMainClassName().equals(type.getFullyQualifiedName())) {
 			return false;
 		}
-		// TODO this check is not sufficient. there might be test classes that 
-		// use JUnit annotations instead of inheriting from TestCase.
-		
-		// TODO do we need to cache the type hierarchy?
-		ITypeHierarchy supertypeHierarchy = type.newSupertypeHierarchy(new NullProgressMonitor());
-		IType[] superTypes = supertypeHierarchy.getAllSuperclasses(type);
-		for (IType superType : superTypes) {
-			if (isJUnitTestCase(superType)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
-	private boolean isJUnitTestCase(IType type) throws JavaModelException {
-		String name = type.getFullyQualifiedName();
-		return "junit.framework.TestCase".equals(name);
+		if (new org.eclipse.jdt.internal.junit.launcher.JUnit3TestFinder().isTest(type)) {
+			return true;
+		}
+		if (new org.eclipse.jdt.internal.junit.launcher.JUnit4TestFinder().isTest(type)) {
+			return true;
+		}
+		
+		return false;
 	}
 }
