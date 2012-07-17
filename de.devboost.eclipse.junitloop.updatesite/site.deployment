@@ -1,4 +1,4 @@
-version = 0.6.1
+version = 0.6.2
 site/vendor = DevBoost GmbH
 site/uploadPath = www.devboost.de:/home/jenkins/junitloop/update_trunk
 
