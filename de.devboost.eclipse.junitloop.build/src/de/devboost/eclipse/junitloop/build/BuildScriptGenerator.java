@@ -19,14 +19,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.devboost.buildboost.buildext.test.junit.stages.JUnitTestStage;
-import de.devboost.buildboost.filters.IdentifierRegexFilter;
-import de.devboost.buildboost.genext.updatesite.stages.BuildUpdateSiteStage;
-import de.devboost.buildboost.model.IBuildConfiguration;
-import de.devboost.buildboost.model.IBuildParticipant;
-import de.devboost.buildboost.model.IBuildStage;
-import de.devboost.buildboost.stages.CompileStage;
-import de.devboost.buildboost.stages.CopyProjectsStage;
+import org.dropsbox.autobuild.filters.IdentifierRegexFilter;
+import org.dropsbox.autobuild.model.IBuildConfiguration;
+import org.dropsbox.autobuild.model.IBuildParticipant;
+import org.dropsbox.autobuild.model.IBuildStage;
+import org.dropsbox.autobuild.stages.BuildUpdateSiteStage;
+import org.dropsbox.autobuild.stages.CompileStage;
+import org.dropsbox.autobuild.stages.CopyProjectsStage;
+import org.dropsbox.autobuild.stages.JUnitTestStage;
 
 public class BuildScriptGenerator implements IBuildConfiguration {
 
@@ -34,29 +34,29 @@ public class BuildScriptGenerator implements IBuildConfiguration {
 	public List<IBuildStage> getBuildStages(String workspace) {
 		
 		String buildDir = workspace + File.separator + "build";
-		//String testResultDir = buildDir + File.separator + "test-results";
-		//String eclipseHome = buildDir + File.separator + "target-platform";
+		String testResultDir = buildDir + File.separator + "test-results";
+		String eclipseHome = buildDir + File.separator + "target-platform";
 		String eclipsePluginBuildDir = buildDir + File.separator + "eclipse-plugins";
 
 		CopyProjectsStage stage1 = new CopyProjectsStage();
-		stage1.setReposFolder(workspace);
-		stage1.setArtifactsFolder(eclipsePluginBuildDir);
+		stage1.setSourcePath(workspace);
+		stage1.setTargetPath(eclipsePluginBuildDir);
 		stage1.addBuildParticipants(getAdditionalParticipants());
 		
 		CompileStage stage2 = new CompileStage();
-		stage2.setArtifactsFolder(eclipsePluginBuildDir);
-		//stage2.setEclipseHome(eclipseHome);
+		stage2.setBuildDirPath(eclipsePluginBuildDir);
+		stage2.setEclipseHome(eclipseHome);
 		stage2.setSourceFileEncoding("utf-8");
 		stage2.addBuildParticipants(getAdditionalParticipants());
 		
 		JUnitTestStage stage3 = new JUnitTestStage();
-		stage3.setArtifactsFolder(eclipsePluginBuildDir);
-		//stage3.setTestResultPath(testResultDir);
-		//stage3.setEclipseHome(eclipseHome);
+		stage3.setBuildDirPath(eclipsePluginBuildDir);
+		stage3.setTestResultPath(testResultDir);
+		stage3.setEclipseHome(eclipseHome);
 
 		BuildUpdateSiteStage stage4 = new BuildUpdateSiteStage();
-		stage4.setArtifactsFolder(buildDir);
-		//stage4.setEclipseHome(eclipseHome);
+		stage4.setBuildDirPath(buildDir);
+		stage4.setEclipseHome(eclipseHome);
 		stage4.setUsernameProperty("user-devboost-jenkins");
 		stage4.setPasswordProperty("pass-devboost-jenkins");
 
