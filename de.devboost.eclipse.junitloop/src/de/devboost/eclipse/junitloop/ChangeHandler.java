@@ -30,8 +30,6 @@ import de.devboost.eclipse.junitloop.launch.TestSuiteProjectData;
  * classes are compiled in Eclipse. It clears the dependency cache for each
  * compiled class. Also, if JUnitLoop is enabled, the loop test suite is
  * updated and launched.
- * 
- * TODO handle case where no test is found
  */
 class ChangeHandler {
 

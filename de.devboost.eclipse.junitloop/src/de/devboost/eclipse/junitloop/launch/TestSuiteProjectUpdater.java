@@ -82,4 +82,14 @@ public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 		IClasspathEntry junitEntry = JavaCore.newContainerEntry(path);
 		return Collections.singleton(junitEntry);
 	}
+
+	/**
+	 * Returns true if there are tests run. Otherwise false is returned as there
+	 * is no need to update (and execute) the test suite if there are no tests
+	 * to run anyway. Running an empty test suite is just confusing. 
+	 */
+	@Override
+	protected boolean updateRequired() {
+		return !testsToRun.isEmpty();
+	}
 }

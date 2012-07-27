@@ -64,7 +64,10 @@ public abstract class AbstractLaunchProjectUpdater {
 	}
 
 	protected void updateLaunchProject(Set<String> requiredProjects) {
-		// create loop test suite project in workspace if it does not exist
+		if (!updateRequired()) {
+			return;
+		}
+		// create loop launch project in workspace if it does not exist
 		boolean success = createProjectIfNeeded();
 		if (!success) {
 			return;
@@ -95,6 +98,15 @@ public abstract class AbstractLaunchProjectUpdater {
 			JLoopPlugin.logError("Can't update " + getLongProjectName() + " class.", ce);
 		}
 	}
+
+	/**
+	 * Subclasses can implement this method to indicate whether an update of the
+	 * launch project is required. If this method returns false, no actions will
+	 * be performed.
+	 * 
+	 * @return
+	 */
+	protected abstract boolean updateRequired();
 
 	private void createParents(IContainer container) {
 		try {

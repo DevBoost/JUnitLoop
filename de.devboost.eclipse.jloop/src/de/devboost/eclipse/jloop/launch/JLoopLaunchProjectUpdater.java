@@ -105,4 +105,13 @@ public class JLoopLaunchProjectUpdater extends AbstractLaunchProjectUpdater {
 	protected String getLongProjectName() {
 		return "JLoop launch";
 	}
+
+	/**
+	 * Returns always true as there is no situation where the JLoop launch
+	 * project must not be updated. 
+	 */
+	@Override
+	protected boolean updateRequired() {
+		return true;
+	}
 }
