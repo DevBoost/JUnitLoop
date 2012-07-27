@@ -20,6 +20,7 @@ import org.osgi.framework.BundleContext;
 
 import de.devboost.eclipse.jloop.launch.LaunchingHelper;
 import de.devboost.eclipse.junitloop.launch.TestSuiteProjectData;
+import de.devboost.eclipse.junitloop.launch.TestSuiteProjectUpdater;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -77,6 +78,16 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+		// previously, the test suite project was created when the first class
+		// was changed. Now, we create it when JUnitLoop is activated to make
+		// sure the project exists upon the first class change. This avoids
+		// the problem that the test suite was not executed if it did not exist
+		// yet.
+		if (enabled) {
+			TestSuiteProjectUpdater testSuiteProjectUpdater = new TestSuiteProjectUpdater();
+			testSuiteProjectUpdater.createProjectIfNeeded();
+			testSuiteProjectUpdater.updateLoopTestSuite();
+		}
 	}
 
 	public boolean isEnabled() {

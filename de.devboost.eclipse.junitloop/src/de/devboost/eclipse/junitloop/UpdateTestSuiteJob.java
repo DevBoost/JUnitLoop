@@ -65,14 +65,14 @@ public class UpdateTestSuiteJob extends Job {
 		
 		// update loop test suite
 		TestSuiteProjectUpdater testSuiteProjectUpdater = new TestSuiteProjectUpdater();
-
-		TestRunScheduler scheduler = new TestRunScheduler();
 		boolean success = testSuiteProjectUpdater.createProjectIfNeeded();
 		if (!success) {
 			return;
 		}
+		TestRunScheduler scheduler = new TestRunScheduler();
 		scheduler.addFailedTests(context.getTestClasses());
 		scheduler.addTestProjects(context.getTestProjects());
+		
 		testSuiteProjectUpdater.updateLoopTestSuite();
 	}
 

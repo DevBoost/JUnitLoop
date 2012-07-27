@@ -64,7 +64,7 @@ public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 			"import org.junit.runners.Suite;\n" +
 			"import org.junit.runners.Suite.SuiteClasses;\n" +
 			"\n" +
-			"/** This class is generated and will be overridden.*/\n" +
+			"/** This class is generated and will be overridden. */\n" +
 			"@RunWith(Suite.class)\n" +
 			"@SuiteClasses({" + classes + "})\n" + 
 			"public class LoopTestSuite {\n" +

@@ -27,7 +27,7 @@ public class EnableAction implements IViewActionDelegate {
 
 	@Override
 	public void run(IAction action) {
-		JUnitLoopPlugin.getDefault().setEnabled(action.isEnabled());
+		JUnitLoopPlugin.getDefault().setEnabled(action.isChecked());
 	}
 
 	@Override

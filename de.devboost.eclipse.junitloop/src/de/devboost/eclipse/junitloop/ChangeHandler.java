@@ -31,8 +31,6 @@ import de.devboost.eclipse.junitloop.launch.TestSuiteProjectData;
  * compiled class. Also, if JUnitLoop is enabled, the loop test suite is
  * updated and launched.
  * 
- * TODO check why the test suite does not run when the test suite project is
- * created for the first time
  * TODO handle case where no test is found
  */
 class ChangeHandler {
