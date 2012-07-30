@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
@@ -44,6 +46,14 @@ class LoopRunner {
 		if (type == null) {
 			return;
 		}
+		
+		IResource resource = type.getResource();
+		IProject project = resource.getProject();
+		if (new JDTHelper().existsProblems(project.getName())) {
+			JLoopPlugin.logInfo("Can't run class in loop because required project contains error(s).", null);
+			return;
+		}
+		
 		IObjectLifecycleHandler handler = getLifecycleHandler(type);
 		if (handler == null) {
 			String message = "Can't determine life cycle handler for class " + type.getFullyQualifiedName();

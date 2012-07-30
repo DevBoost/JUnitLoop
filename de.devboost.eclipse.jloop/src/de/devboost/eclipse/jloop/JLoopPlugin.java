@@ -89,6 +89,19 @@ public class JLoopPlugin extends AbstractUIPlugin {
 	}
 	
 	/**
+	 * Helper method for logging informations.
+	 * 
+	 * @param message the information message to log
+	 * @param throwable the exception that describes the information in detail (can be
+	 * null)
+	 * 
+	 * @return the status object describing the warning
+	 */
+	public static org.eclipse.core.runtime.IStatus logInfo(String message, Throwable throwable) {
+		return log(org.eclipse.core.runtime.IStatus.INFO, message, throwable);
+	}
+	
+	/**
 	 * Helper method for logging warnings.
 	 * 
 	 * @param message the warning message to log
