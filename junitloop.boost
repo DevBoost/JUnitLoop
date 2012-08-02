@@ -1,0 +1,5 @@
+git:https://github.com/DevBoost/BuildBoost.git!Extensions/JUnit
+git:https://github.com/DevBoost/BuildBoost.git!Extensions/UpdateSite
+
+svn:http://svn-st.inf.tu-dresden.de/svn/reuseware/trunk/Target Platforms/Eclipse/eclipse-SDK-3.7.2-core
+svn:http://svn-st.inf.tu-dresden.de/svn/reuseware/trunk/Target Platforms/Eclipse/eclipse-SDK-3.7.2-linux
