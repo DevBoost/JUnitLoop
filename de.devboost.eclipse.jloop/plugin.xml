@@ -24,4 +24,32 @@
       </compilationParticipant>
    </extension>
 
+
+	<extension point="org.eclipse.ui.commands">
+		<category name="JLoop Commands" id="de.devboost.eclipse.jloop.commands.category">
+		</category>
+		<command name="Stop class from running in loop"
+			categoryId="de.devboost.eclipse.jloop.commands.category"
+            id="de.devboost.eclipse.jloop.commands.stopClassInLoop">
+		</command>
+	</extension>
+	
+	<extension point="org.eclipse.ui.handlers">
+		<handler
+            commandId="de.devboost.eclipse.jloop.commands.stopClassInLoop"
+            class="de.devboost.eclipse.jloop.commands.StopClassInLoopCommandHandler">
+		</handler>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.run?after=additions">
+        <command
+              commandId="de.devboost.eclipse.jloop.commands.stopClassInLoop"
+              mnemonic="S"
+              id="de.devboost.eclipse.jloop.menus.stopClassInLoop"
+              label="Stop JLoop">
+        </command>
+      </menuContribution>
+   </extension>
+
 </plugin>
