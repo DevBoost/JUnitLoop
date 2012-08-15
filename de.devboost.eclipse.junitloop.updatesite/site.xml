@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site>
+<site associateSitesURL="http://www.junitloop.org/update_trunk/associateSites.xml">
    <feature url="features/de.devboost.eclipse.jloop_0.0.0.v0.jar" id="de.devboost.eclipse.jloop" version="0.0.0.v0">
       <category name="JUnitLoop"/>
    </feature>
