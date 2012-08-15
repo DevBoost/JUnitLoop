@@ -1,6 +1,8 @@
 version = 0.6.3
 site/vendor = DevBoost GmbH
-site/uploadPath = www.devboost.de:/home/jenkins/junitloop/update_trunk
+site/uploadPath = www.dropsbox.org:srv/www_junitloop/update_trunk	
+site/usernameProperty = DROPSBOX_UPLOAD_USER
+site/passwordProperty = DROPSBOX_UPLOAD_PASS
 
 feature/de.devboost.eclipse.jloop/version = $version
 feature/de.devboost.eclipse.jloop/name = JLoop
