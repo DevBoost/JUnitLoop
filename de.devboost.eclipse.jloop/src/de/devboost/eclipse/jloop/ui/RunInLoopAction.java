@@ -41,7 +41,7 @@ import de.devboost.eclipse.jloop.JLoopPlugin;
  * developing a GUI) as the {@link JLoopCompilationParticipant} is triggered
  * whenever a class is compiled in Eclipse.
  * 
- * TODO implement something to stop a class from running in a loop
+ * TODO move 'Stop class from running loop command' to end of 'Run' menu
  */
 public class RunInLoopAction implements IObjectActionDelegate {
 
