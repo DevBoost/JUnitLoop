@@ -65,10 +65,11 @@ public class TestRunScheduler {
 		appendContent(TEST_PROJECTS_FILE, text);
 	}
 
-	private StringBuilder getText(Collection<String> tests) {
+	private StringBuilder getText(Collection<String> lines) {
+		Set<String> uniqueLines = new LinkedHashSet<String>(lines);
 		StringBuilder text = new StringBuilder();
-		for (String test : tests) {
-			text.append(test);
+		for (String line : uniqueLines) {
+			text.append(line);
 			text.append(LINE_DELIMITER);
 		}
 		return text;
