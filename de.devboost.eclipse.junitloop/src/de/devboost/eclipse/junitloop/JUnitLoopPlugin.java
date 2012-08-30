@@ -106,6 +106,8 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 		testSessionIsRunning = true;
 	}
 
+	// TODO this is not called when the test session has been killed by the user
+	// thus, no further test are triggered!
 	public void notifySessionFinished() {
 		testSessionIsRunning = false;
 		if (runTestsAfterSessionFinished) {
