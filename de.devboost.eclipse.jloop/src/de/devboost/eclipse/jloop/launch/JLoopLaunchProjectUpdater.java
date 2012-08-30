@@ -24,13 +24,22 @@ import org.eclipse.jdt.core.IType;
 import de.devboost.eclipse.jloop.AbstractLaunchProjectUpdater;
 import de.devboost.eclipse.jloop.IMagicMethodNames;
 
+/**
+ * The JLoopLaunchProjectUpdater takes care of updating the launch project that
+ * is generated in order to launch the class that runs in a loop. This mainly
+ * required to create a class that calls the run() method on the class in the
+ * loop and the stop() method when this is demanded by the life cycle handler
+ * (e.g. when the class was modified and needs to be reloaded).
+ */
 public class JLoopLaunchProjectUpdater extends AbstractLaunchProjectUpdater {
 
 	private String loopClassName;
 	private boolean hasStopMethod;
+	private boolean isRunInNewVM;
 	
-	public JLoopLaunchProjectUpdater(IType type) {
+	public JLoopLaunchProjectUpdater(IType type, boolean isRunInNewVM) {
 		super(new JLoopLaunchProjectData());
+		this.isRunInNewVM = isRunInNewVM;
 		this.loopClassName = type.getFullyQualifiedName();
 		this.hasStopMethod = type.getMethod(IMagicMethodNames.STOP_METHOD_NAME, new String[0]).exists();
 	}
@@ -42,13 +51,39 @@ public class JLoopLaunchProjectUpdater extends AbstractLaunchProjectUpdater {
 
 	@Override
 	protected String getSourceCode() {
+		String mainClassName = getProjectData().getMainClassName();
+		String code;
+		if (isRunInNewVM) {
+			code = getRunInNewVMCode(mainClassName);
+		} else {
+			code = getRunInSameVMCode(mainClassName);
+		}
+		return code;
+	}
+
+	private String getRunInSameVMCode(String mainClassName) {
+		// we use a time stamp to make sure this class is compiled after
+		// generating it.
+		long timeStamp = System.currentTimeMillis();
+
+		String code = 
+				"/** This class is generated and will be overridden. */\n" +
+				"public class " + mainClassName + " {\n" +
+				"\n" +
+				"\t/** The class that currently runs in loop, runs in the same VM. Thus, this class is not used. */\n" +
+				"\tpublic void notUsed" + timeStamp + "() {\n" + 
+				"\t}\n" +
+				"}";
+		return code;
+	}
+
+	private String getRunInNewVMCode(String mainClassName) {
 		// we use a time stamp to make sure this class is compiled after
 		// generating it.
 		long timeStamp = System.currentTimeMillis();
 		
-		String mainClassName = getProjectData().getMainClassName();
 		String code = 
-			"/** This class is generated and will be overridden.*/\n" +
+			"/** This class is generated and will be overridden. */\n" +
 			"public class " + mainClassName + " {\n" +
 			"\n" +
 			"\tprivate " + loopClassName + " instance;\n" +

@@ -85,7 +85,7 @@ class RunInNewVMHandler implements IObjectLifecycleHandler {
 	private void startNewInstanceInNewVM(IType type) {
 		JLoopLaunchProjectData launchProjectData = new JLoopLaunchProjectData();
 		
-		JLoopLaunchProjectUpdater launchProjectUpdater = new JLoopLaunchProjectUpdater(type);
+		JLoopLaunchProjectUpdater launchProjectUpdater = new JLoopLaunchProjectUpdater(type, true);
 		
 		Path sourcePath = new Path(launchProjectData.getSourcePath());
 		IProject project = launchProjectUpdater.getProject();

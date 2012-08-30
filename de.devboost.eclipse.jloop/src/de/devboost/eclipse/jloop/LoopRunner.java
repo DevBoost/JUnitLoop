@@ -83,7 +83,7 @@ class LoopRunner {
 			return;
 		}
 		
-		JLoopLaunchProjectUpdater launchProjectUpdater = new JLoopLaunchProjectUpdater(type);
+		JLoopLaunchProjectUpdater launchProjectUpdater = new JLoopLaunchProjectUpdater(type, isRunInNewVM(type));
 		Set<String> requiredProjects;
 		try {
 			IJavaProject javaProject = type.getJavaProject();
@@ -98,15 +98,25 @@ class LoopRunner {
 	}
 
 	private IObjectLifecycleHandler getLifecycleHandler(final IType type) {
-		IMethod runMethod = type.getMethod(IMagicMethodNames.RUN_IN_NEW_VM_METHOD_NAME, new String[0]);
-		IMethod runInSameVMMethod = type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, new String[0]);
-		if (runInSameVMMethod.exists()) {
+		if (isRunInSameVM(type)) {
 			return new RunInSameVMHandler(type);
-		} else if (runMethod.exists()) {
-			return new RunInNewVMHandler(type);
 		} else {
-			return null;
+			if (isRunInNewVM(type)) {
+				return new RunInNewVMHandler(type);
+			} else {
+				return null;
+			}
 		}
+	}
+
+	private boolean isRunInSameVM(final IType type) {
+		IMethod runInSameVMMethod = type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, new String[0]);
+		return runInSameVMMethod.exists();
+	}
+
+	private boolean isRunInNewVM(final IType type) {
+		IMethod runMethod = type.getMethod(IMagicMethodNames.RUN_IN_NEW_VM_METHOD_NAME, new String[0]);
+		return runMethod.exists();
 	}
 
 	private IType getType(IFile loopFile) {
