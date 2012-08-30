@@ -17,6 +17,7 @@ package de.devboost.eclipse.junitloop.launch;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
@@ -29,6 +30,8 @@ import de.devboost.eclipse.junitloop.TestRunScheduler;
 
 public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 
+	private static final String LOOP_TEST_SUITE_NAME = "LoopTestSuite";
+
 	public TestSuiteProjectUpdater() {
 		super(new TestSuiteProjectData());
 	}
@@ -39,8 +42,9 @@ public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 		synchronized (TestSuiteProjectUpdater.class) {
 			TestRunScheduler scheduler = new TestRunScheduler();
 			this.testsToRun = scheduler.getTestsToRun();
-			Set<String> testProjects = scheduler.getTestProjects();
-			updateLaunchProject(testProjects);
+			Set<String> requiredProjects = new LinkedHashSet<String>(); 
+			requiredProjects.addAll(scheduler.getTestProjects());
+			updateLaunchProject(requiredProjects);
 		}
 	}
 
@@ -56,18 +60,18 @@ public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 			if ("".equals(testToRun.trim())) {
 				continue;
 			}
+			if (LOOP_TEST_SUITE_NAME.equals(testToRun.trim())) {
+				continue;
+			}
 			classes.append(testToRun);
 			classes.append(".class, ");
 		}
 		String code = 
-			"import org.junit.runner.RunWith;\n" +
-			"import org.junit.runners.Suite;\n" +
-			"import org.junit.runners.Suite.SuiteClasses;\n" +
-			"\n" +
 			"/** This class is generated and will be overridden. */\n" +
-			"@RunWith(Suite.class)\n" +
-			"@SuiteClasses({" + classes + "})\n" + 
-			"public class LoopTestSuite {\n" +
+			"@org.junit.runner.RunWith(org.junit.runners.Suite.class)\n" +
+			"@org.junit.runners.Suite.SuiteClasses({" + classes + "})\n" + 
+			//"@org.junit.experimental.categories.Categories.ExcludeCategory(" + SlowTests.class.getName() + ".class)\n" +
+			"public class " + LOOP_TEST_SUITE_NAME + " {\n" +
 			// we use a time stamp to make sure this class is compiled after
 			// generating it.
 			"\n" +
