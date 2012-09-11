@@ -69,7 +69,7 @@ public class JLoopPlugin extends AbstractUIPlugin {
 
 	public void setLoopFile(IFile file) {
 		loopFile = file;
-		new LoopRunner().updateLaunchProject();
+		new LoopRunner().updateLaunchProject(null);
 	}
 	
 	public IFile getLoopFile() {

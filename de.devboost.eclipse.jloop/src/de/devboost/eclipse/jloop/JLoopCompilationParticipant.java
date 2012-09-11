@@ -15,7 +15,9 @@
  ******************************************************************************/
 package de.devboost.eclipse.jloop;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 
@@ -33,18 +35,20 @@ public class JLoopCompilationParticipant extends AbstractLoopCompilationParticip
 			return;
 		}
 		boolean compiledLoopWrapper = false;
+		Set<String> currentProjects = new LinkedHashSet<String>();
 		String sourcePath = new JLoopLaunchProjectData().getSourcePath();
 		for (IResource file : files) {
 			if (file.getFullPath().toString().equals(sourcePath)) {
 				compiledLoopWrapper = true;
-				break;
+			} else {
+				currentProjects.add(file.getProject().getName());
 			}
 		}
 		
 		if (compiledLoopWrapper) {
 			new LoopRunner().runLoopFiles();
 		} else {
-			new LoopRunner().updateLaunchProject();
+			new LoopRunner().updateLaunchProject(currentProjects);
 		}
 	}
 }

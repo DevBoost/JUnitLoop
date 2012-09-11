@@ -16,6 +16,7 @@
 package de.devboost.eclipse.jloop;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -44,6 +45,10 @@ class LoopRunner {
 	public void runLoopFiles() {
 		IType type = getLoopType();
 		if (type == null) {
+			return;
+		}
+		Set<String> requiredProjects = getRequiredProjects(type);
+		if (requiredProjects == null) {
 			return;
 		}
 		
@@ -77,13 +82,24 @@ class LoopRunner {
 		return type;
 	}
 
-	public void updateLaunchProject() {
+	public void updateLaunchProject(Set<String> currentProjects) {
 		IType type = getLoopType();
 		if (type == null) {
 			return;
 		}
+		Set<String> requiredProjects = getRequiredProjects(type);
+		if (currentProjects != null && Collections.disjoint(currentProjects, requiredProjects)) {
+			return;
+		}
 		
 		JLoopLaunchProjectUpdater launchProjectUpdater = new JLoopLaunchProjectUpdater(type, isRunInNewVM(type));
+		if (requiredProjects == null) {
+			return;
+		}
+		launchProjectUpdater.updateLaunchProject(requiredProjects);
+	}
+	
+	private Set<String> getRequiredProjects(IType type) {
 		Set<String> requiredProjects;
 		try {
 			IJavaProject javaProject = type.getJavaProject();
@@ -92,9 +108,9 @@ class LoopRunner {
 			requiredProjects.add(javaProject.getProject().getName());
 		} catch (JavaModelException e) {
 			JLoopPlugin.logError("Can't determine list of required projects.", e);
-			return;
+			return null;
 		}
-		launchProjectUpdater.updateLaunchProject(requiredProjects);
+		return requiredProjects;
 	}
 
 	private IObjectLifecycleHandler getLifecycleHandler(final IType type) {
