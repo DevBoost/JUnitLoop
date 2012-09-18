@@ -126,8 +126,12 @@ class LoopRunner {
 	}
 
 	private boolean isRunInSameVM(final IType type) {
-		IMethod runInSameVMMethod = type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, new String[0]);
-		return runInSameVMMethod.exists();
+		IMethod runInSameVMMethod = 
+				type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, new String[0]);
+		IMethod runInSameVMMethodWithParameter = 
+				type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, 
+						new String[] { "QString;"});
+		return runInSameVMMethod.exists() || runInSameVMMethodWithParameter.exists();
 	}
 
 	private boolean isRunInNewVM(final IType type) {
