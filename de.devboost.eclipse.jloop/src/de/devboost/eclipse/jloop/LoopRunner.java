@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 
 import de.devboost.eclipse.jloop.launch.JLoopLaunchProjectUpdater;
@@ -125,18 +126,43 @@ class LoopRunner {
 		}
 	}
 
-	private boolean isRunInSameVM(final IType type) {
-		IMethod runInSameVMMethod = 
-				type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, new String[0]);
-		IMethod runInSameVMMethodWithParameter = 
-				type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, 
-						new String[] { "QString;"});
-		return runInSameVMMethod.exists() || runInSameVMMethodWithParameter.exists();
+	private boolean isRunInSameVM(final IType loopFileType) {
+		IType[] allClasses;
+		try {
+			ITypeHierarchy hierarchy = loopFileType.newSupertypeHierarchy(null);
+			allClasses = hierarchy.getAllClasses();
+		} catch (JavaModelException e) { 
+			allClasses = new IType[] {loopFileType};
+		}
+		for (IType type : allClasses) {
+			IMethod runInSameVMMethod = 
+					type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, new String[0]);
+			IMethod runInSameVMMethodWithParameter = 
+					type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, 
+							new String[] { "QString;"});
+			if (runInSameVMMethod.exists() || runInSameVMMethodWithParameter.exists()) {
+				return true;
+			}
+		}
+		return false;
+
 	}
 
-	private boolean isRunInNewVM(final IType type) {
-		IMethod runMethod = type.getMethod(IMagicMethodNames.RUN_IN_NEW_VM_METHOD_NAME, new String[0]);
-		return runMethod.exists();
+	private boolean isRunInNewVM(final IType loopFileType) {
+		IType[] allClasses;
+		try {
+			ITypeHierarchy hierarchy = loopFileType.newSupertypeHierarchy(null);
+			allClasses = hierarchy.getAllClasses();
+		} catch (JavaModelException e) { 
+			allClasses = new IType[] {loopFileType};
+		}
+		for (IType type : allClasses) {
+			IMethod runMethod = type.getMethod(IMagicMethodNames.RUN_IN_NEW_VM_METHOD_NAME, new String[0]);
+			if (runMethod.exists()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private IType getType(IFile loopFile) {
