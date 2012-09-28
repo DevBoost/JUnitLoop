@@ -69,7 +69,13 @@ class RunInSameVMHandler implements IObjectLifecycleHandler {
 		try {
 			Class<?> loadedClass = bundle.loadClass(type.getFullyQualifiedName());
 			Object newInstance = loadedClass.newInstance();
-			invokeMethod(newInstance, IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME);
+			try {
+				Method runMethod = newInstance.getClass().getMethod(
+						IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, String.class);
+				runMethod.invoke(newInstance, JLoopPlugin.getDefault().getLoopFile().getFullPath().toString());
+			} catch (NoSuchMethodException e) {
+				invokeMethod(newInstance, IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME);
+			}
 			return newInstance;
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
