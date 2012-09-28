@@ -19,6 +19,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -110,8 +112,8 @@ public class JLoopPlugin extends AbstractUIPlugin {
 	 * 
 	 * @return the status object describing the warning
 	 */
-	public static org.eclipse.core.runtime.IStatus logWarning(String message, Throwable throwable) {
-		return log(org.eclipse.core.runtime.IStatus.WARNING, message, throwable);
+	public static IStatus logWarning(String message, Throwable throwable) {
+		return log(IStatus.WARNING, message, throwable);
 	}
 	
 	/**
@@ -123,12 +125,12 @@ public class JLoopPlugin extends AbstractUIPlugin {
 	 * 
 	 * @return the status object describing the error
 	 */
-	protected static org.eclipse.core.runtime.IStatus log(int type, String message, Throwable throwable) {
-		org.eclipse.core.runtime.IStatus status;
+	protected static IStatus log(int type, String message, Throwable throwable) {
+		IStatus status;
 		if (throwable != null) {
-			status = new org.eclipse.core.runtime.Status(type, JLoopPlugin.PLUGIN_ID, 0, message, throwable);
+			status = new Status(type, JLoopPlugin.PLUGIN_ID, 0, message, throwable);
 		} else {
-			status = new org.eclipse.core.runtime.Status(type, JLoopPlugin.PLUGIN_ID, message);
+			status = new Status(type, JLoopPlugin.PLUGIN_ID, message);
 		}
 		final JLoopPlugin pluginInstance = JLoopPlugin.getDefault();
 		if (pluginInstance == null) {
