@@ -75,7 +75,11 @@ class LoopRunner {
 	}
 
 	private IType getLoopType() {
-		IFile loopFile = JLoopPlugin.getDefault().getLoopFile();
+		JLoopPlugin plugin = JLoopPlugin.getDefault();
+		if (plugin == null) {
+			return null;
+		}
+		IFile loopFile = plugin.getLoopFile();
 		if (loopFile == null) {
 			return null;
 		}
