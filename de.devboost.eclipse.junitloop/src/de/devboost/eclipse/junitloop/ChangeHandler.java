@@ -33,7 +33,15 @@ import de.devboost.eclipse.junitloop.launch.TestSuiteProjectData;
  */
 class ChangeHandler {
 
-	private IDependencyProvider dependencyProvider = JUnitLoopPlugin.getDefault().getDependencyProvider();
+	private IDependencyProvider dependencyProvider;
+	
+	public ChangeHandler() {
+		super();
+		JUnitLoopPlugin plugin = JUnitLoopPlugin.getDefault();
+		if (plugin != null) {
+			plugin.getDependencyProvider();
+		}
+	}
 
 	public void handleChange(List<IResource> resources, boolean isBatch) {
 		boolean isJUnitLoopEnabled = JUnitLoopPlugin.getDefault().isEnabled();
@@ -69,7 +77,9 @@ class ChangeHandler {
 	private void clearCache(List<IResource> nonJLoopResources) {
 		for (IResource resource : nonJLoopResources) {
 			String path = resource.getFullPath().toString();
-			dependencyProvider.clear(path);
+			if (dependencyProvider != null) {
+				dependencyProvider.clear(path);
+			}
 		}
 	}
 
