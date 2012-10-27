@@ -144,7 +144,12 @@ class LoopRunner {
 			IMethod runInSameVMMethodWithParameter = 
 					type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, 
 							new String[] { "QString;"});
-			if (runInSameVMMethod.exists() || runInSameVMMethodWithParameter.exists()) {
+			IMethod runInSameVMMethodWithParameterBinary = 
+					type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, 
+							new String[] { "Ljava.lang.String;"});
+			if (runInSameVMMethod.exists() 
+					|| runInSameVMMethodWithParameter.exists()
+					|| runInSameVMMethodWithParameterBinary.exists()) {
 				return true;
 			}
 		}
