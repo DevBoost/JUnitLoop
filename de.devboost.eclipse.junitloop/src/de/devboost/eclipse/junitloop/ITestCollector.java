@@ -19,11 +19,7 @@ import java.util.Set;
 
 interface ITestCollector {
 
-	public void addTestClass(String testClass);
+	public void addTestClass(TestClass testClass);
 
-	public void addTestProject(String testProject);
-
-	public Set<String> getTestClasses();
-
-	public Set<String> getTestProjects();
+	public Set<TestClass> getTestClasses();
 }

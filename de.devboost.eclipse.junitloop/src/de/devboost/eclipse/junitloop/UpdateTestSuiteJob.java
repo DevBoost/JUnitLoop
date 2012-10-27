@@ -71,7 +71,6 @@ public class UpdateTestSuiteJob extends Job {
 		}
 		TestRunScheduler scheduler = new TestRunScheduler();
 		scheduler.addFailedTests(context.getTestClasses());
-		scheduler.addTestProjects(context.getTestProjects());
 		
 		testSuiteProjectUpdater.updateLoopTestSuite();
 	}
@@ -129,14 +128,15 @@ public class UpdateTestSuiteJob extends Job {
 			IType[] types = iCompilationUnit.getTypes();
 			for (IType type : types) {
 				if (new TestCaseChecker().isTestCase(type)) {
-					// found a test
-					testCollector.addTestClass(type.getFullyQualifiedName());
 					IResource correspondingResource = type.getResource();
 					if (correspondingResource != null) {
 						IProject correspondingProject = correspondingResource.getProject();
 						if (correspondingProject != null) {
-							String name = correspondingProject.getName();
-							testCollector.addTestProject(name);
+							String projectName = correspondingProject.getName();
+							String qualifiedClassName = type.getFullyQualifiedName();
+							// found a test
+							TestClass testClass = new TestClass(projectName, qualifiedClassName);
+							testCollector.addTestClass(testClass);
 						}
 					}
 				}

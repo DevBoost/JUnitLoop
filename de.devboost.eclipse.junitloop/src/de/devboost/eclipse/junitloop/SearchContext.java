@@ -21,8 +21,7 @@ import java.util.Set;
 class SearchContext implements IDependencyCollector, ITestCollector {
 	
 	private Set<String> pathsToVisit = new LinkedHashSet<String>();
-	private Set<String> testProjects = new LinkedHashSet<String>();
-	private Set<String> testClasses = new LinkedHashSet<String>();
+	private Set<TestClass> testClasses = new LinkedHashSet<TestClass>();
 	private Set<String> visitedPaths = new LinkedHashSet<String>();
 
 	/* (non-Javadoc)
@@ -42,19 +41,11 @@ class SearchContext implements IDependencyCollector, ITestCollector {
 	}
 
 	/* (non-Javadoc)
-	 * @see de.devboost.eclipse.junitloop.ITestCollector#addTestClass(java.lang.String)
+	 * @see de.devboost.eclipse.junitloop.ITestCollector#addTestClass(TestClass)
 	 */
 	@Override
-	public void addTestClass(String testClass) {
+	public void addTestClass(TestClass testClass) {
 		testClasses.add(testClass);
-	}
-
-	/* (non-Javadoc)
-	 * @see de.devboost.eclipse.junitloop.ITestCollector#addTestProject(java.lang.String)
-	 */
-	@Override
-	public void addTestProject(String testProject) {
-		testProjects.add(testProject);
 	}
 
 	/* (non-Javadoc)
@@ -77,16 +68,8 @@ class SearchContext implements IDependencyCollector, ITestCollector {
 	 * @see de.devboost.eclipse.junitloop.ITestCollector#getTestClasses()
 	 */
 	@Override
-	public Set<String> getTestClasses() {
+	public Set<TestClass> getTestClasses() {
 		return testClasses;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.devboost.eclipse.junitloop.ITestCollector#getTestProjects()
-	 */
-	@Override
-	public Set<String> getTestProjects() {
-		return testProjects;
 	}
 
 	@Override

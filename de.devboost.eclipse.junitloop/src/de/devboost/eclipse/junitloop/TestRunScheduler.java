@@ -36,51 +36,62 @@ import de.devboost.eclipse.junitloop.launch.TestSuiteProjectUpdater;
 /**
  * The TestRunScheduler can be used to schedule tests for the next run of the
  * JUnitLoop test suite. Usually, tests that have failed or that have changed 
- * are scheduled to run again, while test that have succeeded are removed from
+ * are scheduled to run again, while tests that have succeeded are removed from
  * the schedule.
  * 
- * The TestRunScheduler uses plain test files that are stored in the JUnitLoop
+ * The TestRunScheduler uses plain text files that are stored in the JUnitLoop
  * project folder to persist this information.
  */
 public class TestRunScheduler {
 	
 	private static final String LINE_DELIMITER = "\n";
-	private static final String TEST_PROJECTS_FILE = "test_projects";
 	private static final String TESTS_TO_RUN_FILE = "tests_to_run";
+	private static final Object FIELD_DELIMITER = ":";
 
-	public void addFailedTests(Collection<String> failedTests) {
-		StringBuilder text = getText(failedTests);
-		appendContent(TESTS_TO_RUN_FILE, text);
+	public void addFailedTests(Collection<TestClass> failedTests) {
+		Set<TestClass> testsToRun = getTestsToRun();
+		testsToRun.addAll(failedTests);
+		StringBuilder text = getText(testsToRun);
+		setContent(TESTS_TO_RUN_FILE, text, false);
 	}
 
-	public void addSucceededTests(Collection<String> succeededTests) {
-		Set<String> testsToRun = getTestsToRun();
+	public void addSucceededTests(Collection<TestClass> succeededTests) {
+		Set<TestClass> testsToRun = getTestsToRun();
 		testsToRun.removeAll(succeededTests);
 		StringBuilder text = getText(testsToRun);
 		setContent(TESTS_TO_RUN_FILE, text, false);
 	}
 
-	public void addTestProjects(Collection<String> testProjects) {
-		StringBuilder text = getText(testProjects);
-		appendContent(TEST_PROJECTS_FILE, text);
-	}
-
-	private StringBuilder getText(Collection<String> lines) {
-		Set<String> uniqueLines = new LinkedHashSet<String>(lines);
+	private StringBuilder getText(Collection<TestClass> testClasses) {
+		Set<TestClass> uniqueTestClasses = new LinkedHashSet<TestClass>(testClasses);
 		StringBuilder text = new StringBuilder();
-		for (String line : uniqueLines) {
-			text.append(line);
+		for (TestClass next : uniqueTestClasses) {
+			text.append(next.getContainingProject());
+			text.append(FIELD_DELIMITER);
+			text.append(next.getQualifiedClassName());
 			text.append(LINE_DELIMITER);
 		}
 		return text;
 	}
 	
-	public Set<String> getTestsToRun() {
-		return getLines(TESTS_TO_RUN_FILE);
+	public Set<TestClass> getTestsToRun() {
+		return getTestClasses(TESTS_TO_RUN_FILE);
 	}
 
-	public Set<String> getTestProjects() {
-		return getLines(TEST_PROJECTS_FILE);
+	private Set<TestClass> getTestClasses(String filename) {
+		Set<TestClass> classes = new LinkedHashSet<TestClass>();
+		Set<String> lines = getLines(filename);
+		for (String line : lines) {
+			String[] parts = line.split(":");
+			if (parts.length == 2) {
+				String project = parts[0];
+				String className = parts[1];
+				classes.add(new TestClass(project, className));
+			} else {
+				JLoopPlugin.logWarning("Can't read entry '" + line + "' from " + TESTS_TO_RUN_FILE, null);
+			}
+		}
+		return classes;
 	}
 
 	private Set<String> getLines(String filename) {
@@ -103,10 +114,6 @@ public class TestRunScheduler {
 		} catch (IOException e) {
 			return Collections.emptySet();
 		}
-	}
-
-	private void appendContent(String filename, StringBuilder text) {
-		setContent(filename, text, true);
 	}
 
 	private void setContent(String filename, StringBuilder text, boolean append) {

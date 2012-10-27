@@ -18,11 +18,17 @@ package de.devboost.eclipse.junitloop;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.junit.TestRunListener;
 import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestElement;
-import org.eclipse.jdt.junit.model.ITestRunSession;
 import org.eclipse.jdt.junit.model.ITestElement.Result;
+import org.eclipse.jdt.junit.model.ITestRunSession;
+
+import de.devboost.eclipse.jloop.JLoopPlugin;
 
 /**
  * The JUnitLoopTestRunListener makes sure that test which have failed will run
@@ -33,15 +39,19 @@ import org.eclipse.jdt.junit.model.ITestElement.Result;
  */
 public class JUnitLoopTestRunListener extends TestRunListener {
 	
+	private IJavaProject launchedProject;
+
 	@Override
 	public void sessionLaunched(ITestRunSession session) {
 		super.sessionLaunched(session);
+		launchedProject = session.getLaunchedProject();
 		JUnitLoopPlugin.getDefault().notifySessionLaunched();
 	}
 
 	@Override
 	public void sessionFinished(ITestRunSession session) {
 		super.sessionFinished(session);
+		launchedProject = null;
 		JUnitLoopPlugin.getDefault().notifySessionFinished();
 	}
 	
@@ -52,23 +62,46 @@ public class JUnitLoopTestRunListener extends TestRunListener {
 			return;
 		}
 
-		List<String> failedTests = new ArrayList<String>();
-		List<String> succeededTests = new ArrayList<String>();
+		List<TestClass> failedTests = new ArrayList<TestClass>();
+		List<TestClass> succeededTests = new ArrayList<TestClass>();
 
 		String testClassName = testCaseElement.getTestClassName();
 		if (testClassName.startsWith("junit.framework.TestSuite")) {
 			return;
 		}
+		
 		Result testResult = testCaseElement.getTestResult(true);
+		TestClass testClass = createTestClass(testClassName);
+		if (testClass == null) {
+			return;
+		}
+		
 		if (testResult == ITestElement.Result.FAILURE ||
 			testResult == ITestElement.Result.ERROR) {
-			failedTests.add(testClassName);
+			failedTests.add(testClass);
 		} else if (testResult == ITestElement.Result.OK) {
-			succeededTests.add(testClassName);
+			succeededTests.add(testClass);
 		}
 		
 		TestRunScheduler scheduler = new TestRunScheduler();
 		scheduler.addFailedTests(failedTests);
 		scheduler.addSucceededTests(succeededTests);
+	}
+
+	private TestClass createTestClass(String testClassName) {
+		// create local copy to avoid potential multi-threading problems
+		IJavaProject localProject = launchedProject;
+		if (localProject != null) {
+			try {
+				IType type = localProject.findType(testClassName);
+				IResource resource = type.getResource();
+				String projectName = resource.getProject().getName();
+				return new TestClass(projectName, type.getFullyQualifiedName());
+			} catch (JavaModelException e) {
+				JLoopPlugin.logError("Exception while determining Java type for test.", e);
+			}
+		}
+		
+		return null;
 	}
 }
