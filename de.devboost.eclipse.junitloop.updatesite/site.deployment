@@ -1,4 +1,4 @@
-version = 0.6.4
+version = 0.6.5
 site/vendor = DevBoost GmbH
 site/uploadPath = www.dropsbox.org:/srv/www_junitloop.org/update_trunk
 site/usernameProperty = DROPSBOX_UPLOAD_USER
