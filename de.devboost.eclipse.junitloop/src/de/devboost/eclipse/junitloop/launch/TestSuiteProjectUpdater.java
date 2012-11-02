@@ -35,7 +35,7 @@ import de.devboost.eclipse.junitloop.TestRunScheduler;
 
 public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 
-	private static final String LOOP_TEST_SUITE_NAME = "LoopTestSuite";
+	public static final String LOOP_TEST_SUITE_NAME = "LoopTestSuite";
 
 	public TestSuiteProjectUpdater() {
 		super(new TestSuiteProjectData());
@@ -107,9 +107,9 @@ public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 	}
 
 	/**
-	 * Returns true if there are tests run. Otherwise false is returned as there
-	 * is no need to update (and execute) the test suite if there are no tests
-	 * to run anyway. Running an empty test suite is just confusing. 
+	 * Returns true if there are tests to run. Otherwise false is returned as 
+	 * there is no need to update (and execute) the test suite if there are no 
+	 * tests to run anyway. Running an empty test suite is just confusing. 
 	 */
 	@Override
 	protected boolean updateRequired() {

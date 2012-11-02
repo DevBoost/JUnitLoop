@@ -15,6 +15,7 @@
  ******************************************************************************/
 package de.devboost.eclipse.junitloop;
 
+import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -43,10 +44,13 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 
 	private boolean runTestsAfterSessionFinished;
 	
+	private ProcessTerminationListener processTerminationListener = new ProcessTerminationListener();
+
 	/**
 	 * The constructor
 	 */
 	public JUnitLoopPlugin() {
+		super();
 	}
 
 	/*
@@ -56,6 +60,7 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		DebugPlugin.getDefault().addDebugEventListener(processTerminationListener);
 	}
 
 	/*
@@ -63,6 +68,7 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		DebugPlugin.getDefault().removeDebugEventListener(processTerminationListener);
 		plugin = null;
 		super.stop(context);
 	}
@@ -106,8 +112,6 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 		testSessionIsRunning = true;
 	}
 
-	// TODO this is not called when the test session has been killed by the user
-	// thus, no further test are triggered!
 	public void notifySessionFinished() {
 		testSessionIsRunning = false;
 		if (runTestsAfterSessionFinished) {

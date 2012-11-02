@@ -31,6 +31,8 @@ import de.devboost.eclipse.jloop.JLoopPlugin;
 
 public class LauchConfigurationHelper {
 
+	public static final String JDT_LAUNCH_CONFIG_KEY_MAIN_TYPE = "org.eclipse.jdt.launching.MAIN_TYPE";
+
 	private ILaunchManager getLaunchManager() {
 		return DebugPlugin.getDefault().getLaunchManager();
 	}
@@ -104,7 +106,7 @@ public class LauchConfigurationHelper {
 		newInstance.setAttribute("org.eclipse.debug.core.MAPPED_RESOURCE_PATHS", mappedResourcePaths);
 		newInstance.setAttribute("org.eclipse.debug.core.MAPPED_RESOURCE_TYPES", mappedResourceTypes);
 
-		newInstance.setAttribute("org.eclipse.jdt.launching.MAIN_TYPE", mainClass);
+		newInstance.setAttribute(JDT_LAUNCH_CONFIG_KEY_MAIN_TYPE, mainClass);
 		newInstance.setAttribute("org.eclipse.jdt.launching.PROJECT_ATTR", projectName);
 		newInstance.setAttribute("org.eclipse.jdt.launching.VM_ARGUMENTS", "");
 		return newInstance;
