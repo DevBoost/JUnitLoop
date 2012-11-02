@@ -85,10 +85,15 @@ public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 			classes.append(testToRun);
 			classes.append(".class, ");
 		}
+		// TODO check whether the Categories test runner works with older
+		// JUnit versions (e.g., the one bundled with Eclipse 3.7). If not,
+		// we must use the normal runner (Suite.class).
 		String code = 
 			"/** This class is generated and will be overridden. */\n" +
-			"@org.junit.runner.RunWith(org.junit.runners.Suite.class)\n" +
+			"@org.junit.runner.RunWith(org.junit.experimental.categories.Categories.class)\n" +
+			//"@org.junit.runner.RunWith(org.junit.runners.Suite.class)\n" +
 			"@org.junit.runners.Suite.SuiteClasses({" + classes + "})\n" + 
+			"@org.junit.experimental.categories.Categories.ExcludeCategory(Runtime.class)\n" +
 			//"@org.junit.experimental.categories.Categories.ExcludeCategory(" + SlowTests.class.getName() + ".class)\n" +
 			"public class " + LOOP_TEST_SUITE_NAME + " {\n" +
 			// we use a time stamp to make sure this class is compiled after
