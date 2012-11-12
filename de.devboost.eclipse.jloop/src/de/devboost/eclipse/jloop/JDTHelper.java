@@ -29,6 +29,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -85,6 +86,10 @@ public class JDTHelper {
 
 	public IType[] findJavaTypes(String path) throws JavaModelException {
 		IJavaElement javaElement = findJavaElement(path);
+		if (javaElement instanceof IClassFile) {
+			IClassFile classFile = (IClassFile) javaElement;
+			return new IType[] {classFile.getType()};
+		}
 		if (javaElement instanceof ICompilationUnit) {
 			ICompilationUnit compilationUnit = (ICompilationUnit) javaElement;
 			IType[] types = compilationUnit.getTypes();
