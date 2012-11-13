@@ -143,7 +143,7 @@ public abstract class AbstractLaunchProjectUpdater {
 		return workspaceRoot.getProject(projectData.getProjectName());
 	}
 
-	private void updateProjectClasspath(IJavaProject javaProject, Set<String> requiredProjects)
+	protected void updateProjectClasspath(IJavaProject javaProject, Set<String> requiredProjects)
 			throws CoreException, JavaModelException {
 		
 		IProject loopSuiteProject = javaProject.getProject();

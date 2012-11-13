@@ -24,12 +24,16 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 
 import de.devboost.eclipse.jloop.AbstractLaunchProjectUpdater;
+import de.devboost.eclipse.junitloop.JUnitLoopPlugin;
 import de.devboost.eclipse.junitloop.TestClass;
 import de.devboost.eclipse.junitloop.TestRunScheduler;
 
@@ -42,6 +46,19 @@ public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 	}
 
 	private Set<String> testsToRun;
+	
+	@Override
+	protected void updateProjectClasspath(IJavaProject javaProject,
+			Set<String> requiredProjects) throws CoreException,
+			JavaModelException {
+		
+		// we add a skip before updating the class path to tell the
+		// JUnitLoopCompilationParticipant not to trigger a JUnit run for
+		// this particular change. there will be a run for the update of the 
+		// loop test suite later on anyway.
+		JUnitLoopPlugin.getDefault().getChangeSkipManager().addSkip();
+		super.updateProjectClasspath(javaProject, requiredProjects);
+	}
 	
 	public void updateLoopTestSuite() {
 		synchronized (TestSuiteProjectUpdater.class) {
@@ -66,7 +83,7 @@ public class TestSuiteProjectUpdater extends AbstractLaunchProjectUpdater {
 			updateLaunchProject(requiredProjects);
 		}
 	}
-
+	
 	@Override
 	protected String getLongProjectName() {
 		return "JUnitLoop test suite";

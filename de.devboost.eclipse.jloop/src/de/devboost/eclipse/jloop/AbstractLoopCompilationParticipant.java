@@ -15,51 +15,22 @@
  ******************************************************************************/
 package de.devboost.eclipse.jloop;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.compiler.BuildContext;
-import org.eclipse.jdt.core.compiler.CompilationParticipant;
+import de.devboost.eclipse.jdtutilites.AbstractCompilationParticipant;
+import de.devboost.eclipse.jdtutilites.CompilationEvent;
 
-public abstract class AbstractLoopCompilationParticipant extends CompilationParticipant {
-	
-	private BuildContext[] buildContexts;
-	private boolean isBatch;
+public abstract class AbstractLoopCompilationParticipant extends AbstractCompilationParticipant {
 
 	@Override
-	public void buildStarting(BuildContext[] buildContexts, boolean isBatch) {
-		super.buildStarting(buildContexts, isBatch);
-		
-		this.buildContexts = buildContexts;
-		this.isBatch = isBatch;
+	public void buildStarting(CompilationEvent event) {
+		// do nothing	
 	}
 
 	@Override
-	public void buildFinished(IJavaProject project) {
-		super.buildFinished(project);
-		
-		BuildContext[] contexts = buildContexts;
-		if (contexts == null) {
-			return;
-		}
-		buildContexts = null;
-
-		List<IResource> files = new ArrayList<IResource>();
-		for (BuildContext context : contexts) {
-			IFile file = context.getFile();
-			files.add(file);
-		}
-
-		handleChange(files, isBatch);
+	public void buildFinished(Collection<CompilationEvent> events) {
+		handleChange(events);
 	}
 	
-	@Override
-	public boolean isActive(IJavaProject project) {
-		return true;
-	}
-
-	protected abstract void handleChange(List<IResource> files, boolean isBatch);
+	protected abstract void handleChange(Collection<CompilationEvent> events);
 }

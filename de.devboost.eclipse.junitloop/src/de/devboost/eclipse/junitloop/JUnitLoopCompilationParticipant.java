@@ -15,10 +15,13 @@
  ******************************************************************************/
 package de.devboost.eclipse.junitloop;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 
+import de.devboost.eclipse.jdtutilites.CompilationEvent;
 import de.devboost.eclipse.jloop.AbstractLoopCompilationParticipant;
 
 /**
@@ -29,7 +32,11 @@ import de.devboost.eclipse.jloop.AbstractLoopCompilationParticipant;
 public class JUnitLoopCompilationParticipant extends AbstractLoopCompilationParticipant {
 	
 	@Override
-	public void handleChange(List<IResource> files, boolean isBatch) {
-		new ChangeHandler().handleChange(files, isBatch);
+	public void handleChange(Collection<CompilationEvent> events) {
+		List<IResource> files = new ArrayList<IResource>();
+		for (CompilationEvent event : events) {
+			files.add(event.getContext().getFile());
+		}
+		new ChangeHandler().handleChange(files);
 	}
 }

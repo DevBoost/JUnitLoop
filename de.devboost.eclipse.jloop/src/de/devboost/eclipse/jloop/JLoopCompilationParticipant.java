@@ -15,12 +15,13 @@
  ******************************************************************************/
 package de.devboost.eclipse.jloop;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IFile;
 
+import de.devboost.eclipse.jdtutilites.CompilationEvent;
 import de.devboost.eclipse.jloop.launch.JLoopLaunchProjectData;
 
 /**
@@ -30,14 +31,16 @@ import de.devboost.eclipse.jloop.launch.JLoopLaunchProjectData;
 public class JLoopCompilationParticipant extends AbstractLoopCompilationParticipant {
 	
 	@Override
-	public void handleChange(List<IResource> files, boolean isBatch) {
-		if (isBatch) {
-			return;
-		}
+	public void handleChange(Collection<CompilationEvent> events) {
 		boolean compiledLoopWrapper = false;
 		Set<String> currentProjects = new LinkedHashSet<String>();
 		String sourcePath = new JLoopLaunchProjectData().getSourcePath();
-		for (IResource file : files) {
+		for (CompilationEvent event : events) {
+			// TODO is this correct?
+			if (event.isBatch()) {
+				continue;
+			}
+			IFile file = event.getContext().getFile();
 			if (file.getFullPath().toString().equals(sourcePath)) {
 				compiledLoopWrapper = true;
 			} else {

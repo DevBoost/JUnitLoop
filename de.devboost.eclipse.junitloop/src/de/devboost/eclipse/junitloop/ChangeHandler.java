@@ -43,8 +43,12 @@ class ChangeHandler {
 		}
 	}
 
-	public void handleChange(List<IResource> resources, boolean isBatch) {
-		boolean isJUnitLoopEnabled = JUnitLoopPlugin.getDefault().isEnabled();
+	public void handleChange(List<IResource> resources) {
+		JUnitLoopPlugin plugin = JUnitLoopPlugin.getDefault();
+		if (plugin == null) {
+			return;
+		}
+		boolean isJUnitLoopEnabled = plugin.isEnabled();
 
 		List<IResource> nonJLoopResources = new ArrayList<IResource>();
 		List<IResource> jLoopResources = new ArrayList<IResource>();
@@ -61,16 +65,22 @@ class ChangeHandler {
 		
 		if (!nonJLoopResources.isEmpty()) {
 			clearCache(nonJLoopResources);
-			if (!isBatch && isJUnitLoopEnabled) {
+			// TODO only consider resources that be not compile in batch mode?
+			// if we do so, clean build do not trigger a JUnit run. do we want
+			// this? maybe a preference option is appropriate here?
+			if (/**!isBatch && **/isJUnitLoopEnabled) {
 				// execute dependency calculation in separate job(s) to make 
 				// sure that the build job is not blocked for a long time
 				Job job = new UpdateTestSuiteJob(nonJLoopResources);
 				job.schedule();
 			}
 		}
-		if (!jLoopResources.isEmpty() && !isBatch && isJUnitLoopEnabled) {
+		if (!jLoopResources.isEmpty() && isJUnitLoopEnabled) {
 			// do this only when the loop test suite has changed
-			createAndRunJUnitLoopLaunchConfiguration(jLoopResources.get(0));
+			ChangeSkipManager changeSkipManager = plugin.getChangeSkipManager();
+			if (changeSkipManager.shallSkip()) {
+				createAndRunJUnitLoopLaunchConfiguration(jLoopResources.get(0));
+			}
 		}
 	}
 

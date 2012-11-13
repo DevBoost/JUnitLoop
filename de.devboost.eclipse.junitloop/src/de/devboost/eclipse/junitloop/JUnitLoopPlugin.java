@@ -46,6 +46,8 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 	
 	private ProcessTerminationListener processTerminationListener = new ProcessTerminationListener();
 
+	private ChangeSkipManager changeSkipManager = new ChangeSkipManager();
+
 	/**
 	 * The constructor
 	 */
@@ -130,5 +132,9 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 			String jobName = "JUnit Loop Launch Job";
 			new LaunchingHelper().launchTestConfiguration(sourcePath, launchType, jobName);
 		}
+	}
+
+	public ChangeSkipManager getChangeSkipManager() {
+		return changeSkipManager;
 	}
 }
