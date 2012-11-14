@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 
-import de.devboost.eclipse.jdtutilites.CompilationEvent;
+import de.devboost.eclipse.jdtutilities.CompilationEvent;
 import de.devboost.eclipse.jloop.launch.JLoopLaunchProjectData;
 
 /**

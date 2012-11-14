@@ -17,8 +17,8 @@ package de.devboost.eclipse.jloop;
 
 import java.util.Collection;
 
-import de.devboost.eclipse.jdtutilites.AbstractCompilationParticipant;
-import de.devboost.eclipse.jdtutilites.CompilationEvent;
+import de.devboost.eclipse.jdtutilities.AbstractCompilationParticipant;
+import de.devboost.eclipse.jdtutilities.CompilationEvent;
 
 public abstract class AbstractLoopCompilationParticipant extends AbstractCompilationParticipant {
 

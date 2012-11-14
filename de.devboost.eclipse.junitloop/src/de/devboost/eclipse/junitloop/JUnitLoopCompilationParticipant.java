@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 
-import de.devboost.eclipse.jdtutilites.CompilationEvent;
+import de.devboost.eclipse.jdtutilities.CompilationEvent;
 import de.devboost.eclipse.jloop.AbstractLoopCompilationParticipant;
 
 /**
