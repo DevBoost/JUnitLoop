@@ -6,9 +6,17 @@
    <feature url="features/de.devboost.eclipse.junitloop_0.0.0.v0.jar" id="de.devboost.eclipse.junitloop" version="0.0.0.v0">
       <category name="JUnitLoop"/>
    </feature>
+   <feature url="features/de.devboost.eclipse.jdtutilites_0.0.0.v0.jar" id="de.devboost.eclipse.jdtutilites" version="0.0.0.v0">
+      <category name="JDTUtilities"/>
+   </feature>
    <category-def name="JUnitLoop" label="JLoop/JUnitLoop">
       <description>
          JLoop/JUnitLoop - Run classes or affected unit tests automatically whenever a class is saved.
+      </description>
+   </category-def>
+   <category-def name="JDTUtilities" label="JDTUtilities">
+      <description>
+         JDTUtilities - A set of utility classes that ease working with the Eclipse JDT.
       </description>
    </category-def>
 </site>
