@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
  org.eclipse.jdt.core,
- de.devboost.eclipse.jdtutilites;visibility:=reexport
+ de.devboost.eclipse.jdtutilities;visibility:=reexport
 Bundle-Activator: de.devboost.eclipse.jloop.JLoopPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: de.devboost.eclipse.jloop,

@@ -6,7 +6,7 @@
    <feature url="features/de.devboost.eclipse.junitloop_0.0.0.v0.jar" id="de.devboost.eclipse.junitloop" version="0.0.0.v0">
       <category name="JUnitLoop"/>
    </feature>
-   <feature url="features/de.devboost.eclipse.jdtutilites_0.0.0.v0.jar" id="de.devboost.eclipse.jdtutilites" version="0.0.0.v0">
+   <feature url="features/de.devboost.eclipse.jdtutilities_0.0.0.v0.jar" id="de.devboost.eclipse.jdtutilities" version="0.0.0.v0">
       <category name="JDTUtilities"/>
    </feature>
    <category-def name="JUnitLoop" label="JLoop/JUnitLoop">

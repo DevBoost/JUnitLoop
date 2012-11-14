@@ -9,3 +9,6 @@ feature/de.devboost.eclipse.jloop/name = JLoop
 
 feature/de.devboost.eclipse.junitloop/version = $version
 feature/de.devboost.eclipse.junitloop/name = JUnitLoop
+
+feature/de.devboost.eclipse.jdtutilities/version = 0.1.0
+feature/de.devboost.eclipse.jdtutilities/name = JDTUtilites
