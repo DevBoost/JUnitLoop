@@ -55,7 +55,7 @@ class LoopRunner {
 		
 		IResource resource = type.getResource();
 		IProject project = resource.getProject();
-		if (new JDTHelper().existsProblems(project.getName())) {
+		if (new JDTHelper().hasProblems(project.getName())) {
 			JLoopPlugin.logInfo("Can't run class in loop because required project contains error(s).", null);
 			return;
 		}

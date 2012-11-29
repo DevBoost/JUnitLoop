@@ -105,7 +105,7 @@ public class JDTHelper {
 	 * @param projectName the name of the project to check
 	 * @return true if there is errors, false if not
 	 */
-	public boolean existsProblems(String projectName) {
+	public boolean hasProblems(String projectName) {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot root = workspace.getRoot();
 		
@@ -131,7 +131,7 @@ public class JDTHelper {
 		}
 		
 		for (String requiredProject : requiredProjects) {
-			if (existsProblems(root.getProject(requiredProject))) {
+			if (hasProblems(root.getProject(requiredProject))) {
 				return true;
 			}
 		}
@@ -139,7 +139,7 @@ public class JDTHelper {
 	}
 
 	// This code is copied from org.eclipse.debug.core.model.LaunchConfigurationDelegate.
-	private boolean existsProblems(IProject project) {
+	private boolean hasProblems(IProject project) {
 		try {
 			IMarker[] markers = project.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
 			int markerCount = markers.length;

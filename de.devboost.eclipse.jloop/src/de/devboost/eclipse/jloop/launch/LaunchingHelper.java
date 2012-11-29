@@ -40,7 +40,7 @@ public class LaunchingHelper {
 			return;
 		}
 		IProject project = mainClass.getProject();
-		if (new JDTHelper().existsProblems(project.getName())) {
+		if (new JDTHelper().hasProblems(project.getName())) {
 			JLoopPlugin.logInfo("Can't run loop test suite because required project contains error(s).", null);
 			return;
 		}
