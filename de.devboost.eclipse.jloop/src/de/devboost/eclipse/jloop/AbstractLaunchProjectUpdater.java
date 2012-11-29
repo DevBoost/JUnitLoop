@@ -55,7 +55,7 @@ public abstract class AbstractLaunchProjectUpdater {
 	
 	public AbstractLaunchProjectUpdater(AbstractLaunchProjectData projectData) {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		workspaceRoot = workspace.getRoot();
+		this.workspaceRoot = workspace.getRoot();
 		this.projectData = projectData;
 	}
 	
