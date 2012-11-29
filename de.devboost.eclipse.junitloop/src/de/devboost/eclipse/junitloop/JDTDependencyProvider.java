@@ -29,7 +29,7 @@ class JDTDependencyProvider implements IDependencyProvider {
 	public Set<String> findDependencies(String path) {
 		try {
 			ClassDependencyUtility util = new ClassDependencyUtility();
-			return util.findDependencies(path);
+			return util.findReferencesTo(path);
 		} catch (CoreException e) {
 			JLoopPlugin.logError("Exception while searching for dependencies.", e);
 			return Collections.emptySet();
