@@ -52,7 +52,7 @@ class JDTDependencyProvider implements IDependencyProvider {
 			Object foundElement = match.getElement();
 			if (foundElement instanceof IJavaElement) {
 				IJavaElement javaElement = (IJavaElement) foundElement;
-				addTestToSearchResult(result, javaElement);
+				addClassToSearchResult(result, javaElement);
 			}
 		}
 	}
@@ -60,14 +60,14 @@ class JDTDependencyProvider implements IDependencyProvider {
 	@Override
 	public Set<String> findDependencies(String path) {
 		try {
-			return searchRelatedTests(path);
+			return searchRelatedClasses(path);
 		} catch (JavaModelException e) {
 			JLoopPlugin.logError("Exception while searching for dependencies.", e);
 			return Collections.emptySet();
 		}
 	}
 
-	private Set<String> searchRelatedTests(String path) throws JavaModelException {
+	private Set<String> searchRelatedClasses(String path) throws JavaModelException {
 		return searchReferences(path);
 	}
 
@@ -103,7 +103,7 @@ class JDTDependencyProvider implements IDependencyProvider {
 		return org.eclipse.jdt.internal.core.JavaModelManager.getJavaModelManager().getWorkspaceScope();
 	}
 
-	private void addTestToSearchResult(Set<String> result, IJavaElement javaElement)
+	private void addClassToSearchResult(Set<String> result, IJavaElement javaElement)
 			throws JavaModelException {
 		if (javaElement == null) {
 			return;
