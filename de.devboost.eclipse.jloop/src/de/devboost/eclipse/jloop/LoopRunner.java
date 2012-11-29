@@ -32,6 +32,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 
+import de.devboost.eclipse.jdtutilities.JDTUtility;
 import de.devboost.eclipse.jloop.launch.JLoopLaunchProjectUpdater;
 
 /**
@@ -41,7 +42,7 @@ import de.devboost.eclipse.jloop.launch.JLoopLaunchProjectUpdater;
  */
 class LoopRunner {
 	
-	private JDTHelper jdtHelper = new JDTHelper();
+	private JDTUtility jdtUtility = new JDTUtility();
 	
 	public void runLoopFiles() {
 		IType type = getLoopType();
@@ -175,14 +176,14 @@ class LoopRunner {
 	}
 
 	private IType getType(IFile loopFile) {
-		IJavaProject javaProject = jdtHelper.getJavaProject(loopFile.getProject());
+		IJavaProject javaProject = jdtUtility.getJavaProject(loopFile.getProject());
 		if (javaProject == null) {
 			return null;
 		}
 		IPath path = loopFile.getFullPath();
 		String pathString = path.toString();
 		try {
-			IType[] types = jdtHelper.findJavaTypes(pathString);
+			IType[] types = jdtUtility.getJavaTypes(pathString);
 			if (types != null && types.length > 0) {
 				return types[0];
 			}

@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 
-import de.devboost.eclipse.jloop.JDTHelper;
+import de.devboost.eclipse.jdtutilities.JDTUtility;
 import de.devboost.eclipse.jloop.JLoopPlugin;
 import de.devboost.eclipse.junitloop.launch.TestSuiteProjectUpdater;
 
@@ -86,7 +86,7 @@ public class UpdateTestSuiteJob extends Job {
 			context.addPathToVisit(pathString);
 
 			// first, add element itself (if it is a test)
-			IJavaElement javaElement = new JDTHelper().findJavaElement(pathString);
+			IJavaElement javaElement = new JDTUtility().getJavaElement(pathString);
 			addElementIfTest(context, javaElement);
 			monitor.worked(1);
 		}
@@ -95,7 +95,7 @@ public class UpdateTestSuiteJob extends Job {
 		searchRelatedTests(context);
 		
 		for (String dependencyPath : context.getVisitedPaths()) {
-			IJavaElement javaElement = new JDTHelper().findJavaElement(dependencyPath);
+			IJavaElement javaElement = new JDTUtility().getJavaElement(dependencyPath);
 			addElementIfTest(context, javaElement);
 		}
 	}
