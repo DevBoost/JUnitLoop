@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.IType;
 
 import de.devboost.eclipse.jloop.AbstractLaunchProjectUpdater;
 import de.devboost.eclipse.jloop.IMagicMethodNames;
+import de.devboost.eclipse.jloop.JDTHelper;
 
 /**
  * The JLoopLaunchProjectUpdater takes care of updating the launch project that
@@ -41,7 +42,7 @@ public class JLoopLaunchProjectUpdater extends AbstractLaunchProjectUpdater {
 		super(new JLoopLaunchProjectData());
 		this.isRunInNewVM = isRunInNewVM;
 		this.loopClassName = type.getFullyQualifiedName();
-		this.hasStopMethod = type.getMethod(IMagicMethodNames.STOP_METHOD_NAME, new String[0]).exists();
+		this.hasStopMethod = new JDTHelper().hasStopMethod(type);
 	}
 	
 	@Override

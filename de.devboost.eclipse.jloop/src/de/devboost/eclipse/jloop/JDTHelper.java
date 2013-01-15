@@ -27,6 +27,9 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 
 import de.devboost.eclipse.jdtutilities.JDTUtility;
@@ -113,5 +116,28 @@ public class JDTHelper {
 		} 
 		
 		return false;
+	}
+
+	public boolean hasStopMethod(IType type) {
+		IType[] allClasses = new JDTHelper().getTypeAndAllSuperTypes(type);
+		for (IType superType : allClasses) {
+			IMethod stopMethod = superType.getMethod(IMagicMethodNames.STOP_METHOD_NAME, new String[0]);
+			if (stopMethod.exists()) {
+				// TODO check visibility (must be public)
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public IType[] getTypeAndAllSuperTypes(IType type) {
+		IType[] allClasses;
+		try {
+			ITypeHierarchy hierarchy = type.newSupertypeHierarchy(null);
+			allClasses = hierarchy.getAllClasses();
+		} catch (JavaModelException e) { 
+			allClasses = new IType[] {type};
+		}
+		return allClasses;
 	}
 }

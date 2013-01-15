@@ -60,7 +60,8 @@ class RunInNewVMHandler implements IObjectLifecycleHandler {
 	public RunInNewVMHandler(IType type) {
 		super();
 		this.type = type;
-		this.hasStopMethod = type.getMethod(IMagicMethodNames.STOP_METHOD_NAME, new String[0]).exists();
+		
+		this.hasStopMethod = new JDTHelper().hasStopMethod(type);
 	}
 
 	@Override

@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 
 import de.devboost.eclipse.jdtutilities.JDTUtility;
@@ -134,13 +133,7 @@ class LoopRunner {
 	}
 
 	private boolean isRunInSameVM(final IType loopFileType) {
-		IType[] allClasses;
-		try {
-			ITypeHierarchy hierarchy = loopFileType.newSupertypeHierarchy(null);
-			allClasses = hierarchy.getAllClasses();
-		} catch (JavaModelException e) { 
-			allClasses = new IType[] {loopFileType};
-		}
+		IType[] allClasses = new JDTHelper().getTypeAndAllSuperTypes(loopFileType);
 		for (IType type : allClasses) {
 			IMethod runInSameVMMethod = 
 					type.getMethod(IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, new String[0]);
@@ -161,13 +154,7 @@ class LoopRunner {
 	}
 
 	private boolean isRunInNewVM(final IType loopFileType) {
-		IType[] allClasses;
-		try {
-			ITypeHierarchy hierarchy = loopFileType.newSupertypeHierarchy(null);
-			allClasses = hierarchy.getAllClasses();
-		} catch (JavaModelException e) { 
-			allClasses = new IType[] {loopFileType};
-		}
+		IType[] allClasses = new JDTHelper().getTypeAndAllSuperTypes(loopFileType);
 		for (IType type : allClasses) {
 			IMethod runMethod = type.getMethod(IMagicMethodNames.RUN_IN_NEW_VM_METHOD_NAME, new String[0]);
 			if (runMethod.exists()) {
