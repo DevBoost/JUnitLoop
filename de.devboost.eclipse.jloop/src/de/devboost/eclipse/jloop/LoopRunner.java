@@ -105,6 +105,8 @@ class LoopRunner {
 		launchProjectUpdater.updateLaunchProject(requiredProjects);
 	}
 	
+	// TODO there is a problem when required plug-ins are found, but are not
+	// available in the current workspace
 	private Set<String> getRequiredProjects(IType type) {
 		Set<String> requiredProjects;
 		try {
