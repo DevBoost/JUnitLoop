@@ -15,12 +15,12 @@
  ******************************************************************************/
 package de.devboost.eclipse.junitloop;
 
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.jobs.Job;
 
 import de.devboost.eclipse.jloop.launch.LauchConfigurationHelper;
 import de.devboost.eclipse.junitloop.launch.TestSuiteProjectData;
@@ -50,8 +50,8 @@ class ChangeHandler {
 		}
 		boolean isJUnitLoopEnabled = plugin.isEnabled();
 
-		List<IResource> nonJLoopResources = new ArrayList<IResource>();
-		List<IResource> jLoopResources = new ArrayList<IResource>();
+		Set<IResource> nonJLoopResources = new LinkedHashSet<IResource>();
+		Set<IResource> jLoopResources = new LinkedHashSet<IResource>();
 		
 		String sourcePath = new TestSuiteProjectData().getSourcePath();
 		for (IResource resource : resources) {
@@ -71,20 +71,19 @@ class ChangeHandler {
 			if (/**!isBatch && **/isJUnitLoopEnabled) {
 				// execute dependency calculation in separate job(s) to make 
 				// sure that the build job is not blocked for a long time
-				Job job = new UpdateTestSuiteJob(nonJLoopResources);
-				job.schedule();
+				plugin.getChangeCollector().addChanges(nonJLoopResources);
 			}
 		}
 		if (!jLoopResources.isEmpty() && isJUnitLoopEnabled) {
 			// do this only when the loop test suite has changed
 			ChangeSkipManager changeSkipManager = plugin.getChangeSkipManager();
 			if (changeSkipManager.shallSkip()) {
-				createAndRunJUnitLoopLaunchConfiguration(jLoopResources.get(0));
+				createAndRunJUnitLoopLaunchConfiguration(jLoopResources.iterator().next());
 			}
 		}
 	}
 
-	private void clearCache(List<IResource> nonJLoopResources) {
+	private void clearCache(Set<IResource> nonJLoopResources) {
 		for (IResource resource : nonJLoopResources) {
 			String path = resource.getFullPath().toString();
 			if (dependencyProvider != null) {

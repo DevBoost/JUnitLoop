@@ -48,6 +48,8 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 
 	private ChangeSkipManager changeSkipManager = new ChangeSkipManager();
 
+	private ResoureChangeCollector changeCollector = new ResoureChangeCollector();
+
 	/**
 	 * The constructor
 	 */
@@ -136,5 +138,9 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 
 	public ChangeSkipManager getChangeSkipManager() {
 		return changeSkipManager;
+	}
+
+	public ResoureChangeCollector getChangeCollector() {
+		return changeCollector;
 	}
 }

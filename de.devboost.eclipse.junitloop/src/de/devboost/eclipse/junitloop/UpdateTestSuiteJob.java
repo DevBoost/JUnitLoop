@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006-2012
+ * Copyright (c) 2006-2013
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  * 
@@ -16,11 +16,13 @@
 package de.devboost.eclipse.junitloop;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -39,11 +41,12 @@ public class UpdateTestSuiteJob extends Job {
 
 	private IDependencyProvider dependencyProvider = JUnitLoopPlugin.getDefault().getDependencyProvider();
 
-	private List<IResource> resources;
-
-	public UpdateTestSuiteJob(List<IResource> resources) {
+	public UpdateTestSuiteJob() {
 		super("Updating JUnitLoop test suite");
-		this.resources = resources;
+		
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root = workspace.getRoot();
+		setRule(root);
 	}
 
 	@Override
@@ -53,6 +56,10 @@ public class UpdateTestSuiteJob extends Job {
 	}
 	
 	private void updateTestSuite(IProgressMonitor monitor) {
+		JUnitLoopPlugin plugin = JUnitLoopPlugin.getDefault();
+		ResoureChangeCollector changeCollector = plugin.getChangeCollector();
+		Set<IResource> resources = changeCollector.retrieveChanges();
+		
 		SearchContext context = new SearchContext();
 		try {
 			monitor.beginTask("Searching related tests", resources.size());
@@ -77,7 +84,7 @@ public class UpdateTestSuiteJob extends Job {
 
 	private void searchRelatedTests(
 			IProgressMonitor monitor,
-			List<IResource> resources,
+			Set<IResource> resources,
 			SearchContext context) throws JavaModelException {
 		
 		for (IResource resource : resources) {
