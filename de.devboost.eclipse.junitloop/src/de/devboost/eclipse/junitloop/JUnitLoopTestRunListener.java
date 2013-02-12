@@ -58,7 +58,11 @@ public class JUnitLoopTestRunListener extends TestRunListener {
 	@Override
 	public void testCaseFinished(ITestCaseElement testCaseElement) {
 		super.testCaseFinished(testCaseElement);
-		if (!JUnitLoopPlugin.getDefault().isEnabled()) {
+		JUnitLoopPlugin plugin = JUnitLoopPlugin.getDefault();
+		if (plugin == null) {
+			return;
+		}
+		if (!plugin.isEnabled()) {
 			return;
 		}
 
