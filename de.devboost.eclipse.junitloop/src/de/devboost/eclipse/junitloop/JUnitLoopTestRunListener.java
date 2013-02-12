@@ -98,6 +98,9 @@ public class JUnitLoopTestRunListener extends TestRunListener {
 		if (localProject != null) {
 			try {
 				IType type = localProject.findType(testClassName);
+				if (type == null) {
+					return null;
+				}
 				IResource resource = type.getResource();
 				String projectName = resource.getProject().getName();
 				return new TestClass(projectName, type.getFullyQualifiedName());
