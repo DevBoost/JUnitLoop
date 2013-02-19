@@ -2,7 +2,7 @@
 <feature
       id="de.devboost.eclipse.jloop"
       label="JLoop"
-      version="0.6.7"
+      version="0.6.8"
       provider-name="DevBoost GmbH - Germany">
 
 	<description url="http://www.junitloop.org">JLoop allows to run a class whenever it is saved.</description>

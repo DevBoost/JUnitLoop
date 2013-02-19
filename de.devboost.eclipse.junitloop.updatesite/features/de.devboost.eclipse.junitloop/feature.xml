@@ -2,7 +2,7 @@
 <feature
       id="de.devboost.eclipse.junitloop"
       label="JUnitLoop"
-      version="0.6.7"
+      version="0.6.8"
       provider-name="DevBoost GmbH - Germany">
 
 	<description url="http://www.junitloop.org">JUnitLoop automatically runs all affected JUnit test cases when a class is saved.</description>
