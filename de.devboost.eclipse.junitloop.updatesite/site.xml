@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site associateSitesURL="http://www.junitloop.org/update_trunk/associateSites.xml">
+
    <feature url="features/de.devboost.eclipse.jloop_0.0.0.v0.jar" id="de.devboost.eclipse.jloop" version="0.0.0.v0">
       <category name="JUnitLoop"/>
    </feature>
+
    <feature url="features/de.devboost.eclipse.junitloop_0.0.0.v0.jar" id="de.devboost.eclipse.junitloop" version="0.0.0.v0">
       <category name="JUnitLoop"/>
    </feature>
+
    <feature url="features/de.devboost.eclipse.jdtutilities_0.0.0.v0.jar" id="de.devboost.eclipse.jdtutilities" version="0.0.0.v0">
       <category name="JDTUtilities"/>
    </feature>
+
+   <feature url="features/de.devboost.eclipse.feedback_0.0.0.v0.jar" id="de.devboost.eclipse.feedback" version="0.0.0.v0">
+      <category name="Feedback"/>
+   </feature>
+
    <category-def name="JUnitLoop" label="JLoop/JUnitLoop">
       <description>
          JLoop/JUnitLoop - Run classes or affected unit tests automatically whenever a class is saved.
       </description>
    </category-def>
+
    <category-def name="JDTUtilities" label="JDTUtilities">
       <description>
          JDTUtilities - A set of utility classes that ease working with the Eclipse JDT.
       </description>
+   </category-def>
+
+   <category-def name="Feedback" label="DevBoost Open-Source Feedback">
+      <description>DevBoost Open-Source Feedback - Allows users of DevBoost Open-Source Software to register and send error reports.</description>
    </category-def>
 </site>
