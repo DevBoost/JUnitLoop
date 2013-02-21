@@ -87,6 +87,7 @@ public class UpdateTestSuiteJob extends Job {
 			Set<IResource> resources,
 			SearchContext context) throws JavaModelException {
 		
+		JLoopPlugin.logInfo("Searching related tests for " + resources.size() + " resource(s).", null);
 		for (IResource resource : resources) {
 			IPath path = resource.getFullPath();
 			String pathString = path.toString();

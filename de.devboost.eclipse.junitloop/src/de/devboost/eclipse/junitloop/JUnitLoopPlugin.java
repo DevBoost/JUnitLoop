@@ -107,7 +107,7 @@ public class JUnitLoopPlugin extends AbstractUIPlugin {
 	public synchronized IDependencyProvider getDependencyProvider() {
 		if (dependencyProvider == null) {
 			IDependencyProvider jdtDependencyProvider = new JDTDependencyProvider();
-			dependencyProvider = new MemoryDependencyProvider(jdtDependencyProvider);
+			dependencyProvider = new MemoryDependencyCache(jdtDependencyProvider);
 		}
 		return dependencyProvider;
 	}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006-2012
+ * Copyright (c) 2006-2013
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  * 
@@ -19,12 +19,23 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class MemoryDependencyProvider implements IDependencyProvider {
+/**
+ * The {@link MemoryDependencyCache} can be used to cache dependencies that are
+ * retrieved from another dependency provider in memory.
+ */
+public class MemoryDependencyCache implements IDependencyProvider {
 	
 	private IDependencyProvider delegate;
 	private Map<String, Set<String>> cache = new LinkedHashMap<String, Set<String>>();
 	
-	public MemoryDependencyProvider(IDependencyProvider delegate) {
+	/**
+	 * Creates a new {@link MemoryDependencyCache} that retrieves dependencies
+	 * from the given provider if they have not been retrieved before.
+	 * 
+	 * @param delegate the dependency provider to forward requests to if
+	 *        dependency information is not present in the cache
+	 */
+	public MemoryDependencyCache(IDependencyProvider delegate) {
 		super();
 		this.delegate = delegate;
 	}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006-2012
+ * Copyright (c) 2006-2013
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  * 
@@ -23,6 +23,10 @@ import org.eclipse.core.runtime.CoreException;
 import de.devboost.eclipse.jdtutilities.ClassDependencyUtility;
 import de.devboost.eclipse.jloop.JLoopPlugin;
 
+/**
+ * The {@link JDTDependencyProvider} retrieves information about class 
+ * dependencies using the Eclipse JDT.
+ */
 class JDTDependencyProvider implements IDependencyProvider {
 
 	@Override

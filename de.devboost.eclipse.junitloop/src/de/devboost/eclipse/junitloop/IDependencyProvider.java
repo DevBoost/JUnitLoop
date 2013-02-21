@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006-2012
+ * Copyright (c) 2006-2013
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  * 
@@ -17,9 +17,25 @@ package de.devboost.eclipse.junitloop;
 
 import java.util.Set;
 
+/**
+ * An {@link IDependencyProvider} can be used to find dependencies between Java
+ * classes.
+ */
 public interface IDependencyProvider {
 
+	/**
+	 * Determines all classes which a Java class depends on directly.
+	 * 
+	 * @param path the workspace path of the Java class
+	 * 
+	 * @return a set of fully qualifies class names the given class depends on
+	 */
 	public Set<String> findDependencies(String path);
 
+	/**
+	 * Clears the dependency information for the class located at the given 
+	 * path. This is required in case the {@link IDependencyProvider} at hand
+	 * has some kind of caching mechanism.
+	 */
 	public void clear(String path);
 }
