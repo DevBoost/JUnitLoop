@@ -110,9 +110,9 @@ class RunInSameVMHandler implements IObjectLifecycleHandler {
 	private Method invokeMethod(Object newInstance, String methodName)
 			throws NoSuchMethodException, IllegalAccessException,
 			InvocationTargetException {
-		Method runMethod = newInstance.getClass().getMethod(methodName, new Class[0]);
-		runMethod.invoke(newInstance, new Object[0]);
-		return runMethod;
+		Method method = newInstance.getClass().getMethod(methodName, new Class[0]);
+		method.invoke(newInstance, new Object[0]);
+		return method;
 	}
 	
 	/**
@@ -129,11 +129,11 @@ class RunInSameVMHandler implements IObjectLifecycleHandler {
 		try {
 			kill(object);
 		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+			// Ignore this
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			// Ignore this
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			// Ignore this
 		}
 	}
 }
