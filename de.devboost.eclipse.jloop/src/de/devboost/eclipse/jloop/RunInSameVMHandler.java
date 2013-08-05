@@ -92,24 +92,29 @@ class RunInSameVMHandler implements IObjectLifecycleHandler {
 				invokeMethod(newInstance, IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME);
 			}
 			return newInstance;
-		} catch (ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			printAndLog(e);
 		} catch (Error e) {
-			e.printStackTrace();
+			printAndLog(e);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			printAndLog(e);
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			printAndLog(e);
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			printAndLog(e);
 		} catch (SecurityException e) {
-			e.printStackTrace();
+			printAndLog(e);
 		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+			printAndLog(e);
 		} catch (InstantiationException e) {
-			e.printStackTrace();
+			printAndLog(e);
 		}
 		return null;
+	}
+
+	private void printAndLog(Throwable e) {
+		e.printStackTrace();
+		JLoopPlugin.logError("Can't run class in loop.", e);
 	}
 
 	private Bundle reload(IProject project, OSGIHelper osgiHelper) {
