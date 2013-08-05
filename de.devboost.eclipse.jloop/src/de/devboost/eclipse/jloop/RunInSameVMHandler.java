@@ -15,6 +15,8 @@
  ******************************************************************************/
 package de.devboost.eclipse.jloop;
 
+import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -69,6 +71,19 @@ class RunInSameVMHandler implements IObjectLifecycleHandler {
 		try {
 			Class<?> loadedClass = bundle.loadClass(type.getFullyQualifiedName());
 			Object newInstance = loadedClass.newInstance();
+			
+			// Set output stream writer (if available)
+			try {
+				Field outField = newInstance.getClass().getField("out");
+				Class<?> fieldType = outField.getType();
+				if (PrintStream.class.getName().equals(fieldType.getName())) {
+					PrintStream consolePrintStream = new ConsolePrintStream();
+					outField.set(newInstance, consolePrintStream);
+				}
+			} catch (NoSuchFieldException nsfe) {
+				// Ignore
+			}
+			// Invoke method runInSameVM()
 			try {
 				Method runMethod = newInstance.getClass().getMethod(
 						IMagicMethodNames.RUN_IN_SAME_VM_METHOD_NAME, String.class);

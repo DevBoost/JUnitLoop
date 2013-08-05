@@ -4,11 +4,12 @@ Bundle-Name: Jloop
 Bundle-SymbolicName: de.devboost.eclipse.jloop;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.resources,
+Require-Bundle: org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
+ org.eclipse.ui,
+ org.eclipse.ui.console,
  org.eclipse.jdt.core,
  de.devboost.eclipse.jdtutilities;visibility:=reexport
 Bundle-Activator: de.devboost.eclipse.jloop.JLoopPlugin
