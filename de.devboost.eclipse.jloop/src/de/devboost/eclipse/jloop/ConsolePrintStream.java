@@ -23,6 +23,7 @@ class ConsolePrintStream extends PrintStream {
 
 	private static OutputStream getOut() {
 		MessageConsole myConsole = findConsole(CONSOLE_NAME);
+		myConsole.clearConsole();
 		MessageConsoleStream out = myConsole.newMessageStream();
 		return out;
 	}
