@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 
 /**
  * The OSGIHelper can be used to install and uninstall OSGi bundles.
@@ -47,15 +48,20 @@ class OSGIHelper {
 			if (installedBundle != null) {
 				installedBundle.uninstall();
 			}
-			bundle = JLoopPlugin.getDefault().getBundle().getBundleContext().installBundle(projectUri);
+			
+			JLoopPlugin jLoopPlugin = JLoopPlugin.getDefault();
+			Bundle jLoopBundle = jLoopPlugin.getBundle();
+			BundleContext jLoopBundleContext = jLoopBundle.getBundleContext();
+			bundle = jLoopBundleContext.installBundle(projectUri);
 			if (bundle == null) {
 				throw new RuntimeException();
 			}
 		} catch (Exception e) {
 			final String message = "Failed to load bundle: " + projectName; //$NON-NLS-1$
-			System.err.println(message);
+			JLoopPlugin.logError(message, e);
+			return bundle;
 		}
-		System.out.println("Bundle loaded: " + projectName); //$NON-NLS-1$
+		JLoopPlugin.logInfo("Bundle loaded: " + projectName, null); //$NON-NLS-1$
 		return bundle;
 	}
 
