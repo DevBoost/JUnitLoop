@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Junitloop
+Bundle-Name: JUnitLoop
 Bundle-SymbolicName: de.devboost.eclipse.junitloop;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: de.devboost.eclipse.junitloop.JUnitLoopPlugin
