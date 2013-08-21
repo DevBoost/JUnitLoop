@@ -55,6 +55,8 @@ class OSGIHelper {
 			bundle = jLoopBundleContext.installBundle(projectUri);
 			if (bundle == null) {
 				throw new RuntimeException();
+			} else {
+				bundle.start();
 			}
 		} catch (Exception e) {
 			final String message = "Failed to load bundle: " + projectName; //$NON-NLS-1$
