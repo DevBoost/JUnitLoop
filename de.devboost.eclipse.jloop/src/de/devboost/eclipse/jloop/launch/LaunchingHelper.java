@@ -26,8 +26,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.ILaunchConfiguration;
 
 import de.devboost.eclipse.jloop.IPreLaunchHook;
-import de.devboost.eclipse.jloop.JDTHelper;
 import de.devboost.eclipse.jloop.JLoopPlugin;
+import de.devboost.eclipse.jloop.JLoopProjectUtility;
 
 public class LaunchingHelper {
 
@@ -40,7 +40,7 @@ public class LaunchingHelper {
 			return;
 		}
 		IProject project = mainClass.getProject();
-		if (new JDTHelper().hasProblems(project.getName())) {
+		if (new JLoopProjectUtility().hasProblems(project.getName())) {
 			JLoopPlugin.logInfo("Can't run loop test suite because required project contains error(s).", null);
 			return;
 		}
