@@ -27,6 +27,8 @@ import org.osgi.framework.BundleContext;
 /**
  * The OSGIHelper can be used to install and uninstall OSGi bundles.
  */
+// TODO Show error dialog if one of the plug-ins that shall run in loop is a
+// singleton. In this case reloading the bundle will not work.
 class OSGIHelper {
 	
 	/**
