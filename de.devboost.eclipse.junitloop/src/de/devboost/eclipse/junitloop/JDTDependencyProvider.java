@@ -29,11 +29,18 @@ import de.devboost.eclipse.jloop.JLoopPlugin;
  */
 class JDTDependencyProvider implements IDependencyProvider {
 
+	private final static ClassDependencyUtility classDependencyUtility = new ClassDependencyUtility() {
+
+		@Override
+		protected void logWarning(String message, Exception e) {
+			JLoopPlugin.logWarning(message, e);
+		}
+	};
+
 	@Override
 	public Set<String> findDependencies(String path) {
 		try {
-			ClassDependencyUtility util = new ClassDependencyUtility();
-			return util.findReferencesTo(path);
+			return classDependencyUtility.findReferencesTo(path);
 		} catch (CoreException e) {
 			JLoopPlugin.logError("Exception while searching for dependencies.", e);
 			return Collections.emptySet();

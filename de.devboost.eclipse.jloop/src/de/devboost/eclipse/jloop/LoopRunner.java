@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006-2012
+ * Copyright (c) 2006-2013
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  * 
@@ -41,7 +41,13 @@ import de.devboost.eclipse.jloop.launch.JLoopLaunchProjectUpdater;
  */
 class LoopRunner {
 	
-	private JDTUtility jdtUtility = new JDTUtility();
+	private final static JDTUtility jdtUtility = new JDTUtility() {
+
+		@Override
+		protected void logWarning(String message, Exception e) {
+			JLoopPlugin.logWarning(message, e);
+		}
+	};
 	
 	public void runLoopFiles() {
 		IType type = getLoopType();

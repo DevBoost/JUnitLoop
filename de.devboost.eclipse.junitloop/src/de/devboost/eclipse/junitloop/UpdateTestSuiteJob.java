@@ -39,6 +39,14 @@ import de.devboost.eclipse.junitloop.launch.TestSuiteProjectUpdater;
 
 public class UpdateTestSuiteJob extends Job {
 
+	private final static JDTUtility jdtUtility = new JDTUtility() {
+
+		@Override
+		protected void logWarning(String message, Exception e) {
+			JLoopPlugin.logWarning(message, e);
+		}
+	};
+
 	private IDependencyProvider dependencyProvider = JUnitLoopPlugin.getDefault().getDependencyProvider();
 
 	public UpdateTestSuiteJob() {
@@ -88,13 +96,14 @@ public class UpdateTestSuiteJob extends Job {
 			SearchContext context) throws JavaModelException {
 		
 		JLoopPlugin.logInfo("Searching related tests for " + resources.size() + " resource(s).", null);
+		
 		for (IResource resource : resources) {
 			IPath path = resource.getFullPath();
 			String pathString = path.toString();
 			context.addPathToVisit(pathString);
 
 			// first, add element itself (if it is a test)
-			IJavaElement javaElement = new JDTUtility().getJavaElement(pathString);
+			IJavaElement javaElement = jdtUtility.getJavaElement(pathString);
 			addElementIfTest(context, javaElement);
 			monitor.worked(1);
 		}
@@ -103,7 +112,7 @@ public class UpdateTestSuiteJob extends Job {
 		searchRelatedTests(context);
 		
 		for (String dependencyPath : context.getVisitedPaths()) {
-			IJavaElement javaElement = new JDTUtility().getJavaElement(dependencyPath);
+			IJavaElement javaElement = jdtUtility.getJavaElement(dependencyPath);
 			addElementIfTest(context, javaElement);
 		}
 	}

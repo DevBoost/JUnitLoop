@@ -23,4 +23,9 @@ public class JLoopProjectUtility extends ProjectUtility {
 	protected void logError(String message, Exception e) {
 		JLoopPlugin.logError(message, e);
 	}
+
+	@Override
+	protected void logWarning(String message, Exception e) {
+		JLoopPlugin.logWarning(message, e);
+	}
 }
