@@ -15,6 +15,12 @@
       </testRunListener>
    </extension>
    <extension
+      id="de.devboost.eclipse.junitloop.testFailure"
+      point="org.eclipse.core.resources.markers"
+      name="Test Failure">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+   </extension>
+   <extension
          point="org.eclipse.ui.viewActions">
       <viewContribution
             id="de.devboost.eclipse.junitloop.viewContribution"
