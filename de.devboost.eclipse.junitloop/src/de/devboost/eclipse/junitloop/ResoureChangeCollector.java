@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006-2013
+ * Copyright (c) 2006-2014
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  * 
@@ -18,7 +18,7 @@ package de.devboost.eclipse.junitloop;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.jobs.Job;
 
-import de.devboost.eclipse.jdtutilities.ChangeCollector;
+import de.devboost.shared.commons.ChangeCollector;
 
 public class ResoureChangeCollector extends ChangeCollector<IResource> {
 

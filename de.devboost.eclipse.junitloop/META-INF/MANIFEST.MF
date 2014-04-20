@@ -12,6 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
  de.devboost.eclipse.jloop,
- org.eclipse.jdt.junit.core
+ org.eclipse.jdt.junit.core,
+ de.devboost.shared.commons
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

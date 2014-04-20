@@ -3,6 +3,9 @@ git:https://github.com/DevBoost/BuildBoost.git!Extensions/UpdateSite/
 
 git:https://github.com/DevBoost/JDTUtilities.git
 
+// DevBoost Shared Commons
+git:https://github.com/DevBoost/DevBoostShared.git
+
 // Eclipse Platform
 get:http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/eclipse/downloads/drops4/R-4.3-201306052000/eclipse-platform-4.3-win32-x86_64.zip
 get:http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/eclipse/downloads/drops4/R-4.3-201306052000/eclipse-4.3-delta-pack.zip
