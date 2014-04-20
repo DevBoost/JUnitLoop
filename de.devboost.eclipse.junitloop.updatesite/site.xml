@@ -13,6 +13,10 @@
       <category name="JDTUtilities"/>
    </feature>
 
+   <feature url="features/de.devboost.shared.commons_0.0.0.v0.jar" id="de.devboost.shared.commons" version="0.0.0.v0">
+      <category name="JUnitLoop"/>
+   </feature>
+
    <feature url="features/de.devboost.eclipse.feedback_0.0.0.v0.jar" id="de.devboost.eclipse.feedback" version="0.0.0.v0">
       <category name="Feedback"/>
    </feature>
