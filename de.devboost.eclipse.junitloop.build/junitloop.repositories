@@ -7,10 +7,10 @@ git:https://github.com/DevBoost/JDTUtilities.git
 git:https://github.com/DevBoost/DevBoostShared.git
 
 // Eclipse Platform
-get:http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/eclipse/downloads/drops4/R-4.3-201306052000/eclipse-platform-4.3-win32-x86_64.zip
-get:http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/eclipse/downloads/drops4/R-4.3-201306052000/eclipse-4.3-delta-pack.zip
+get:http://devboost.de/eclipse-mirror/downloads/drops4/R-4.4-201406061215/eclipse-platform-4.4-win32-x86_64.zip
+get:http://devboost.de/eclipse-mirror/downloads/drops4/R-4.4-201406061215/eclipse-4.4-delta-pack.zip
 // JDT
-get:http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/eclipse/downloads/drops4/R-4.3-201306052000/org.eclipse.jdt-4.3.zip
+get:http://devboost.de/eclipse-mirror/downloads/drops4/R-4.4-201406061215/org.eclipse.jdt-4.4.zip
 
 // Feedback
 git:https://github.com/DevBoost/Feedback.git!Core/
