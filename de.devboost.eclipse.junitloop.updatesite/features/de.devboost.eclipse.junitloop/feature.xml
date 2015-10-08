@@ -7,17 +7,17 @@
 
 	<description url="http://www.junitloop.org">JUnitLoop automatically runs all affected JUnit test cases when a class is saved.</description>
 
-	<copyright>Copyright (c) 2011-2013 DevBoost GmbH - Germany</copyright>
+	<copyright>Copyright (c) 2011-2015 DevBoost GmbH - Germany</copyright>
 
    <license>Eclipse Public License v1.0
 
 Copyright (c) 2006-2013
-DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
+DevBoost GmbH, Dresden, Amtsgericht Dresden, HRB 34001
 
 All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
 
 Contributors:
-  DevBoost GmbH - Berlin, Germany
+  DevBoost GmbH - Dresden, Germany
      - initial API and implementation
    </license>
    
