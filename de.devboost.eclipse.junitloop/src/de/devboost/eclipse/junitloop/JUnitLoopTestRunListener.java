@@ -18,13 +18,17 @@ package de.devboost.eclipse.junitloop;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.junit.TestRunListener;
 import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestElement;
+import org.eclipse.jdt.junit.model.ITestElement.FailureTrace;
 import org.eclipse.jdt.junit.model.ITestElement.Result;
 import org.eclipse.jdt.junit.model.ITestRunSession;
 
@@ -39,6 +43,8 @@ import de.devboost.eclipse.jloop.JLoopPlugin;
  */
 public class JUnitLoopTestRunListener extends TestRunListener {
 	
+	public static final String MARKER_TEST_FAILURE = "de.devboost.eclipse.junitloop.testFailure";
+	
 	private IJavaProject launchedProject;
 
 	@Override
@@ -46,6 +52,17 @@ public class JUnitLoopTestRunListener extends TestRunListener {
 		super.sessionLaunched(session);
 		launchedProject = session.getLaunchedProject();
 		JUnitLoopPlugin.getDefault().notifySessionLaunched();
+		
+		// Delete all test failure markers
+		try {
+			ResourcesPlugin
+					.getWorkspace()
+					.getRoot()
+					.deleteMarkers(MARKER_TEST_FAILURE, true,
+							IResource.DEPTH_INFINITE);
+		} catch (final CoreException e) {
+			JLoopPlugin.logError("Couldn't delete old warnings", e);
+		}
 	}
 
 	@Override
@@ -80,9 +97,11 @@ public class JUnitLoopTestRunListener extends TestRunListener {
 			return;
 		}
 		
+		// Add warning to Problems view
 		if (testResult == ITestElement.Result.FAILURE ||
 			testResult == ITestElement.Result.ERROR) {
 			failedTests.add(testClass);
+			writeMarkers(testCaseElement);
 		} else if (testResult == ITestElement.Result.OK) {
 			succeededTests.add(testClass);
 		}
@@ -91,7 +110,42 @@ public class JUnitLoopTestRunListener extends TestRunListener {
 		scheduler.addFailedTests(failedTests);
 		scheduler.addSucceededTests(succeededTests);
 	}
-
+	
+	private void writeMarkers(ITestCaseElement testCaseElement) {
+		final String testClassName = testCaseElement.getTestClassName();
+		final FailureTrace failureTrace = testCaseElement.getFailureTrace();
+		final String trace = failureTrace.getTrace();
+		String traceLine1 = null;
+		for (final String traceLine : trace.split("[\\n\\r]+")) {
+			if (traceLine1 == null) {
+				traceLine1 = traceLine;
+			}
+			if (traceLine.indexOf(testClassName) > 0) {
+				final String line = traceLine.substring(
+						traceLine.indexOf(':') + 1, traceLine.length() - 1);
+				try {
+					final IType testClassType = launchedProject
+							.findType(testClassName);
+					final IResource resource = testClassType.getResource();
+					
+					final IMarker marker = resource
+							.createMarker(MARKER_TEST_FAILURE);
+					marker.setAttribute(IMarker.MESSAGE, traceLine1);
+					marker.setAttribute(IMarker.SEVERITY,
+							IMarker.SEVERITY_WARNING);
+					marker.setAttribute(IMarker.LINE_NUMBER,
+							Integer.parseInt(line));
+					marker.setAttribute(IMarker.LOCATION, "line " + line);
+					marker.setAttribute(IMarker.TRANSIENT, true);
+					
+					break;
+				} catch (final Exception e) {
+					JLoopPlugin.logError("Couldn't write problem marker", e);
+				}
+			}
+		}
+	}
+	
 	private TestClass createTestClass(String testClassName) {
 		// create local copy to avoid potential multi-threading problems
 		IJavaProject localProject = launchedProject;
